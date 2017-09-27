@@ -56,6 +56,6 @@ gem 'devise'
 gem "paperclip", "~> 5.0.0"
 gem 'aws-sdk', '~> 2'
 
-
+gem 's3_direct_upload'
 
 gem 'rails_12factor', group: :production

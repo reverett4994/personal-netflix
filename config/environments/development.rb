@@ -43,7 +43,7 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
   #REMOVES SECURITY FROM S3 STORAGE FOR INTERNAL TESTING
-Aws.config[:ssl_verify_peer] = false
+  Aws.config[:ssl_verify_peer] = false
 
 Paperclip.options[:command_path] = 'C:\Program Files (x86)\GnuWin32\bin'
 
