@@ -43,10 +43,8 @@
     <%= f.label :genre %><br>
     <%= f.collection_check_boxes(:genre_ids, Genre.all, :id, :name) %>
   </div>
-  <div class="field">
-    <%= f.label :content %><br>
-    <%= f.file_field :content %>
-  </div>
+  <%= link_to "Upload Avatar", new_contents_path %>
+  <%= f.hidden_field :key %>
   <div class="actions">
     <%= f.submit %>
   </div>

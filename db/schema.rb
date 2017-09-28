@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170927064349) do
+ActiveRecord::Schema.define(version: 20170928063857) do
 
   create_table "genres", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -77,6 +77,7 @@ ActiveRecord::Schema.define(version: 20170927064349) do
     t.string   "content_content_type", limit: 255
     t.integer  "content_file_size",    limit: 4
     t.datetime "content_updated_at"
+    t.string   "content",              limit: 255
   end
 
 end

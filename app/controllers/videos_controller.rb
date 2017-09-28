@@ -15,6 +15,7 @@ class VideosController < ApplicationController
   # GET /videos/new
   def new
     @video = current_user.videos.build
+    @video.update_attribute :key, params[:key] # different than documentation!!
   end
 
   # GET /videos/1/edit

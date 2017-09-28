@@ -53,8 +53,12 @@ gem 'devise'
 
 
 
-gem "paperclip", "~> 5.0.0"
+
 gem 'aws-sdk', '~> 2'
+
+gem 'carrierwave', '~> 1.0'
+gem "fog-aws"
+gem 'carrierwave_direct'
 
 gem 's3_direct_upload'
 
