@@ -59,6 +59,9 @@ gem 'aws-sdk', '~> 2'
 gem 'carrierwave', '~> 1.0'
 gem "fog-aws"
 gem 'carrierwave_direct'
+gem 'carrierwave-ffmpeg'
+
+gem 'themoviedb'
 
 gem 's3_direct_upload'
 

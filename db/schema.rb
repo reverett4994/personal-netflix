@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170928063857) do
+ActiveRecord::Schema.define(version: 20170928122139) do
 
   create_table "genres", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -63,7 +63,7 @@ ActiveRecord::Schema.define(version: 20170928063857) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "videos", force: :cascade do |t|
-    t.string   "type",                 limit: 255
+    t.string   "production_type",      limit: 255
     t.string   "title",                limit: 255
     t.integer  "season",               limit: 4
     t.integer  "episode",              limit: 4

@@ -53,6 +53,9 @@ GEM
       activemodel (>= 4.0.0)
       activesupport (>= 4.0.0)
       mime-types (>= 1.16)
+    carrierwave-ffmpeg (1.0.0)
+      carrierwave
+      streamio-ffmpeg
     carrierwave_direct (0.0.15)
       carrierwave
       fog
@@ -227,6 +230,8 @@ GEM
     formatador (0.2.5)
     globalid (0.4.0)
       activesupport (>= 4.2.0)
+    httparty (0.15.6)
+      multi_xml (>= 0.5.2)
     i18n (0.8.6)
     inflecto (0.0.2)
     ipaddress (0.8.3)
@@ -254,6 +259,7 @@ GEM
     mini_portile2 (2.1.0)
     minitest (5.10.3)
     multi_json (1.12.2)
+    multi_xml (0.6.0)
     mysql2 (0.4.9-x86-mingw32)
     nokogiri (1.6.8.1-x86-mingw32)
       mini_portile2 (~> 2.1.0)
@@ -328,6 +334,10 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    streamio-ffmpeg (3.0.2)
+      multi_json (~> 1.8)
+    themoviedb (1.0.1)
+      httparty
     thor (0.20.0)
     thread_safe (0.3.6)
     tilt (2.0.8)
@@ -358,6 +368,7 @@ DEPENDENCIES
   aws-sdk (~> 2)
   byebug (~> 9.0.3)
   carrierwave (~> 1.0)
+  carrierwave-ffmpeg
   carrierwave_direct
   coffee-rails (~> 4.1.0)
   devise
@@ -371,6 +382,7 @@ DEPENDENCIES
   s3_direct_upload
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
+  themoviedb
   turbolinks
   tzinfo-data
   uglifier (>= 1.3.0)

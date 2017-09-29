@@ -1,5 +1,18 @@
 
 <%= direct_upload_form_for @uploader do |f| %>
-  <%= f.file_field :content %>
-  <%= f.submit "Upload Directly!" %>
+  <%= f.file_field :content,accept: "video/mp4,video/webm,video/ogg" %>
+  <%= f.submit "Upload Directly!",disabled: true,id:"btn" %>
 <% end %>
+
+
+<script>
+$("#content_uploader_content").change(function () {
+    var fileExtension = ['mp4', 'webm', 'ogg'];
+    if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+        $("#btn").prop( "disabled", true );
+        alert("Only formats are allowed : "+fileExtension.join(', '));
+    }else{
+      $("#btn").prop( "disabled", false );
+    }
+});
+</script>

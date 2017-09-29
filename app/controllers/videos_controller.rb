@@ -10,6 +10,14 @@ class VideosController < ApplicationController
   # GET /videos/1
   # GET /videos/1.json
   def show
+     @search = Tmdb::Search.new
+     @search.resource('tv')
+     @search.query(@video.series.title)
+     @tv_series_id=@search.fetch[0]["id"]
+     @episode = Tmdb::Episode.detail(@search.fetch[0]["id"] , @video.season, @video.episode)
+     @episode_title= @episode["name"]
+     @episode_desc= @episode["overview"]
+     @episode_date= @episode["air_date"]
   end
 
   # GET /videos/new
@@ -26,7 +34,6 @@ class VideosController < ApplicationController
   # POST /videos.json
   def create
     @video = current_user.videos.build(video_params)
-
     respond_to do |format|
       if @video.save
         format.html { redirect_to @video, notice: 'Video was successfully created.' }
@@ -70,6 +77,6 @@ class VideosController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def video_params
-      params.require(:video).permit(:content,:type, :title, :season, :episode, :desc, :date, :series_id, genre_ids:[])
+      params.require(:video).permit(:content,:production_type, :title, :season, :episode, :desc, :date, :series_id, genre_ids:[])
     end
 end

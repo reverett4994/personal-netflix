@@ -2,7 +2,7 @@
 
 <p>
   <strong>Type:</strong>
-  <%= @video.type %>
+  <%= @video.production_type %>
 </p>
 
 <p>
@@ -56,4 +56,11 @@
    <source src=<%=@video.content.url%> type="video/ogg">
    Your browser does not support HTML5 video.
  </video>
-https://s3.amazonaws.com/personal-netflix/uploads/video/content//e6fd16b3-2c98-4b1d-843d-f3752ff3cbf4/IT+2017+720p+NEW+HD-TS+60fps+X264.mp4
+
+<%= @tv_series_id %><br>
+
+
+<% @pics = Tmdb::Episode.images(@tv_series_id, @video.season, @video.episode)%>
+
+<%= image_tag"http://image.tmdb.org/t/p/w780/#{ @pics["stills"][1]["file_path"]}"%><br>
+"w92", "w154", "w185", "w342", "w500", "w780", or "original"
