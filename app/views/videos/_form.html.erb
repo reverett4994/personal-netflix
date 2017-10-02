@@ -12,8 +12,12 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :production_type %><br>
-    <%= f.text_field :production_type %>
+      <%= f.radio_button(:production_type, "Movie") %>
+      <%= f.label(:production_type_movie, "Movie") %>
+      <%= f.radio_button(:production_type, "TV") %>
+      <%= f.label(:production_type_tv, "TV") %>
+      <%= f.radio_button(:production_type, "Other") %>
+      <%= f.label(:production_type_other, "Other") %>
   </div>
   <div class="field">
     <%= f.label :title %><br>

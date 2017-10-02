@@ -15,4 +15,5 @@
 //= require turbolinks
 //= require s3_direct_upload
 //= require jquery-fileupload/basic
+//= require dropzone
 //= require_tree .

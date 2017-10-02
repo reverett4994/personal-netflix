@@ -1,4 +1,5 @@
 class Video < ActiveRecord::Base
+
    has_and_belongs_to_many :genres
    belongs_to :series
    belongs_to :user
@@ -28,19 +29,31 @@ class Video < ActiveRecord::Base
 
   def add_title_and_desc
     @search = Tmdb::Search.new
-    @search.resource('tv')
-    if self.series
-      @search.query(self.series.title)
-      if @search.fetch.any?
-        @tv_series_id=@search.fetch[0]["id"]
-        @episode = Tmdb::Episode.detail(@search.fetch[0]["id"] , self.season, self.episode)
-        @episode_title= @episode["name"]
-        @episode_desc= @episode["overview"]
-        @episode_date= @episode["air_date"]
-        self.title=@episode_title
-        self.desc=@episode_desc
-        self.date=@episode_date.to_date
+    if self.production_type.downcase == "tv"
+      @search.resource('tv')
+      if self.series
+        @search.query(self.series.title)
+        if @search.fetch.any?
+          @tv_series_id=@search.fetch[0]["id"]
+          @episode = Tmdb::Episode.detail(@search.fetch[0]["id"] , self.season, self.episode)
+          @episode_title= @episode["name"]
+          @episode_desc= @episode["overview"]
+          @episode_date= @episode["air_date"]
+          self.title=@episode_title
+          self.desc=@episode_desc
+          self.date=@episode_date.to_date
+        end
       end
+    elsif self.production_type.downcase=="movie"
+      @search = Tmdb::Search.new
+      @search.resource('movie')
+      @search.query(self.title)
+      @movie_id=@search.fetch[0]["id"]
+      @movie = Tmdb::Movie.detail(@movie_id)
+      @movie_desc=@movie["overview"]
+      @movie_date=@movie["release_date"]
+      self.desc=@movie_desc
+      self.date=@movie_date.to_date
     end
   end
 

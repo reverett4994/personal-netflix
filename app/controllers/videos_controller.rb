@@ -4,20 +4,34 @@ class VideosController < ApplicationController
   # GET /videos
   # GET /videos.json
   def index
+    Video.delete_all("title IS NULL")
     @videos = Video.all
   end
 
   # GET /videos/1
   # GET /videos/1.json
   def show
-     @search = Tmdb::Search.new
-     @search.resource('tv')
-     @search.query(@video.series.title)
-     @tv_series_id=@search.fetch[0]["id"]
-     @episode = Tmdb::Episode.detail(@search.fetch[0]["id"] , @video.season, @video.episode)
-     @episode_title= @episode["name"]
-     @episode_desc= @episode["overview"]
-     @episode_date= @episode["air_date"]
+    if @video.production_type.downcase=="tv"
+       @search = Tmdb::Search.new
+       @search.resource('tv')
+       @search.query(@video.series.title)
+       @tv_series_id=@search.fetch[0]["id"]
+       @episode = Tmdb::Episode.detail(@search.fetch[0]["id"] , @video.season, @video.episode)
+       @episode_title= @episode["name"]
+       @episode_desc= @episode["overview"]
+       @episode_date= @episode["air_date"]
+       @pics = Tmdb::Episode.images(@tv_series_id, @video.season, @video.episode)
+       @poster= "http://image.tmdb.org/t/p/w780/#{ @pics["stills"][1]["file_path"]}"
+     elsif @video.production_type.downcase == "movie"
+       @search = Tmdb::Search.new
+       @search.resource('movie')
+       @search.query(@video.title)
+       @movie_id=@search.fetch[0]["id"]
+       @movie = Tmdb::Movie.detail(@movie_id)
+       @movie_desc=@movie["overview"]
+       @movie_date=@movie["release_date"]
+       @poster= "http://image.tmdb.org/t/p/w780/#{ @movie["backdrop_path"]}"
+     end
   end
 
   # GET /videos/new

@@ -76,6 +76,8 @@ GEM
       railties (>= 4.1.0, < 5.1)
       responders
       warden (~> 1.2.3)
+    dropzonejs-rails (0.7.3)
+      rails (> 3.1)
     erubis (2.7.0)
     excon (0.59.0)
     execjs (2.7.0)
@@ -372,6 +374,7 @@ DEPENDENCIES
   carrierwave_direct
   coffee-rails (~> 4.1.0)
   devise
+  dropzonejs-rails
   fog-aws
   jbuilder (~> 2.0)
   jquery-rails

@@ -51,16 +51,13 @@
 <%= link_to 'Back', videos_path %>
 
 
- <video width="400" controls>
+
+ <video width="400" controls poster=<%=@poster%>>
    <source src=<%=@video.content.url%> type="video/mp4">
    <source src=<%=@video.content.url%> type="video/ogg">
    Your browser does not support HTML5 video.
  </video>
 
-<%= @tv_series_id %><br>
 
 
-<% @pics = Tmdb::Episode.images(@tv_series_id, @video.season, @video.episode)%>
-
-<%= image_tag"http://image.tmdb.org/t/p/w780/#{ @pics["stills"][1]["file_path"]}"%><br>
 "w92", "w154", "w185", "w342", "w500", "w780", or "original"

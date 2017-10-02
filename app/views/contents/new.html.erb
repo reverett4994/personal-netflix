@@ -4,7 +4,8 @@
   <%= f.submit "Upload Directly!",disabled: true,id:"btn" %>
 <% end %>
 
-
+<div class="loader"></div>
+<div class="loader_text">Uploading Video<br><br>May take awhile if a large file</div>
 <script>
 $("#content_uploader_content").change(function () {
     var fileExtension = ['mp4', 'webm', 'ogg'];
@@ -14,5 +15,13 @@ $("#content_uploader_content").change(function () {
     }else{
       $("#btn").prop( "disabled", false );
     }
+});
+
+
+$("#btn").click(function(){
+  console.log("click");
+    $("form").hide()
+    $(".loader").show()
+    $(".loader_text").show()
 });
 </script>
