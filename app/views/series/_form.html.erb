@@ -27,3 +27,59 @@
     <%= f.submit %>
   </div>
 <% end %>
+<input id="basics" /><br>
+
+<script>
+var counter = 0
+
+//var options = {
+//	data: [""]
+//};
+//$("#basics").easyAutocomplete(options);
+
+list=""
+var search_results=[]
+
+var input = document.getElementById("basics");
+var a = new Awesomplete(input, {
+  list: search_results
+});
+
+$("#basics").keypress(function(){
+  $(".series").remove();
+  $('#basics').focus();
+//  var options = {
+  // data: search_results
+  //};
+  //$("#basics").easyAutocomplete(options);
+  //$('#basics').focus();
+
+  $.getJSON("https://api.themoviedb.org/3/search/tv?api_key=5041b86cde2ce6de2f60c84e6fccd66c&query="+$("#basics").val(),function(data){
+     results= data.results
+     list=''
+      for(i=0;i<5;i++){
+        list=list+data.results[i]["original_name"]+","
+        counter+=1
+      }
+    //console.log(list.split(","))
+    search_results=list.split(",")
+    //a.list=search_results;
+    //a.evaluate();
+    $('#basics').focus();
+  });
+  if (counter > 0) {
+    for(i=0;i<5;i++){
+      $.getJSON("https://api.themoviedb.org/3/search/tv?api_key=5041b86cde2ce6de2f60c84e6fccd66c&language=en-US&query="+search_results[i]+"&page=1",function(data){
+         results= data.results
+         console.log(results[1]);
+      });
+       // FOR IMAGES https://api.themoviedb.org/3/tv/752/images?api_key=5041b86cde2ce6de2f60c84e6fccd66c&language=en-US
+     $("body").append("<div class='series'>"+search_results[i])+results[1]["id"]+"</div>";
+    }
+    counter=0
+  }
+});
+
+
+
+</script>
