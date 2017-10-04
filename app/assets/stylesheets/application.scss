@@ -170,9 +170,13 @@
 
 
 
-.series{
-  border: 1px solid black;
-  height: 200px;
-  width: 100px;
+.poster{
+  height: 15em;
+  min-height: 650px;
+  min-width: 400px;
   display: inline-block;
+  background-image: url(placeholder.jpg);
+  text-align: center;
+  font-size: 30px;
+  line-height: 675px;
 }

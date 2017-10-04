@@ -39,14 +39,10 @@ var counter = 0
 
 list=""
 var search_results=[]
-
-var input = document.getElementById("basics");
-var a = new Awesomplete(input, {
-  list: search_results
-});
+var id_results=[]
+var ids=''
 
 $("#basics").keypress(function(){
-  $(".series").remove();
   $('#basics').focus();
 //  var options = {
   // data: search_results
@@ -57,25 +53,36 @@ $("#basics").keypress(function(){
   $.getJSON("https://api.themoviedb.org/3/search/tv?api_key=5041b86cde2ce6de2f60c84e6fccd66c&query="+$("#basics").val(),function(data){
      results= data.results
      list=''
+     ids=''
       for(i=0;i<5;i++){
         list=list+data.results[i]["original_name"]+","
+        ids=ids+data.results[i]["id"]+","
         counter+=1
       }
-    //console.log(list.split(","))
     search_results=list.split(",")
-    //a.list=search_results;
-    //a.evaluate();
+    id_results=ids.split(",")
     $('#basics').focus();
   });
   if (counter > 0) {
+    $(".poster").remove();
     for(i=0;i<5;i++){
-      $.getJSON("https://api.themoviedb.org/3/search/tv?api_key=5041b86cde2ce6de2f60c84e6fccd66c&language=en-US&query="+search_results[i]+"&page=1",function(data){
+      $.getJSON("https://api.themoviedb.org/3/tv/"+parseInt(id_results[i])+"?api_key=5041b86cde2ce6de2f60c84e6fccd66c&language=en-US",function(data){
          results= data.results
-         console.log(results[1]);
+         $("body").append("<img class='poster "+data["name"]+"'src='http://image.tmdb.org/t/p/w780/"+data["poster_path"] + "' alt='"+data["name"]+"'>");
+         $(".poster").click(function(){
+           $.getJSON("https://api.themoviedb.org/3/search/tv?api_key=5041b86cde2ce6de2f60c84e6fccd66c&query="+$("#series_title").val(),function(data){
+                 id=data.results[0]["id"]
+                 console.log(id);
+                   $.getJSON("https://api.themoviedb.org/3/tv/"+id+"?api_key=5041b86cde2ce6de2f60c84e6fccd66c&language=en-US",function(data){
+                       desc=data["overview"]
+                       $('#series_desc').val(desc);
+                 });
+           });
+             $('#series_title').val($(this).attr("class").substring(7));
+         });
       });
-       // FOR IMAGES https://api.themoviedb.org/3/tv/752/images?api_key=5041b86cde2ce6de2f60c84e6fccd66c&language=en-US
-     $("body").append("<div class='series'>"+search_results[i])+results[1]["id"]+"</div>";
     }
+
     counter=0
   }
 });
