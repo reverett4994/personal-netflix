@@ -3,13 +3,7 @@
 <h1>Listing Series</h1>
 
 <table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Desc</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+
 
   <tbody>
     <% @series.each do |series| %>
@@ -19,21 +13,57 @@
     <%@tv_series_id=@search.fetch[0]["id"] %>
     <%@pics = Tmdb::TV.images(@tv_series_id) %>
     <% @pics['backdrops'][1]["file_path"] %>
-
-      <tr>
-        <td><%= series.title %></td>
-        <td><%= series.desc %></td>
-        <td><%= link_to 'Show', series %></td>
-        <td><%= link_to 'Edit', edit_series_path(series) %></td>
-        <td><%= link_to 'Destroy', series, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-
-      <%= link_to (series) do %>
-        <%= image_tag("http://image.tmdb.org/t/p/w780/#{@pics['backdrops'][1]["file_path"]}")%>
+      <% if false%>
+        <tr>
+          <td><%= series.title %></td>
+          <td><%= series.desc %></td>
+          <td><%= link_to 'Show', series %></td>
+          <td><%= link_to 'Edit', edit_series_path(series) %></td>
+          <td><%= link_to 'Destroy', series, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
       <%end%>
+        <%= image_tag("http://image.tmdb.org/t/p/w780/#{@pics['backdrops'][1]["file_path"]}", :class => "#{series.title}")%>
     <% end %>
   </tbody>
 </table>
 <br>
 
 <%= link_to 'New Series', new_series_path %>
+
+
+
+<script>
+$("img").click(function(){
+  $("#dropdown").remove();
+  $(this).after("<div id='dropdown'><h1>"+$(this).attr('class')+"</h1></div>");
+  $.ajax({
+    type: "POST",
+    url: "/get_videos",
+    dataType:"json",
+    data: {"title":$(this).attr('class')},
+    success:function(data) {
+      var series=data["series"]
+      console.log(data["series"]["desc"]);
+      var videos=data["videos"]
+      var amount=videos.length
+      $("<h4>"+amount+" episodes</h4>").appendTo( "#dropdown" );
+      $( "<h2>"+data["series"]["desc"]+"</h2>" ).appendTo( "#dropdown" );
+      for(i=0;i<amount;i++){
+        $("<img src="+videos[i]["poster"]+"  />").appendTo( "#dropdown" );
+      }
+      for(i=0;i<amount;i++){
+        $("<p class='video_desc'>"+videos[i]["desc"]+"</h3>").appendTo( "#dropdown" );
+      }
+    },
+    error:function(data) {
+      console.log("bad");
+      console.log(data);
+      alert("Error Occurred! Please make sure there is a user using the Email entered.")
+      return false;
+    }
+  });
+
+});
+
+
+</script>

@@ -1,6 +1,14 @@
 class SeriesController < ApplicationController
   before_action :set_series, only: [:show, :edit, :update, :destroy]
 
+
+  def get_videos
+    @series=Series.where("title LIKE ?",params[:title])
+    @series=@series.last
+    respond_to do |format|
+      format.json { render :json => {:series => @series, :videos => @series.videos} }
+    end
+  end
   # GET /series
   # GET /series.json
   def index

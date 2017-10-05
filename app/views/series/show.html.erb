@@ -10,5 +10,17 @@
   <%= @series.desc %>
 </p>
 
+
+<% @series.videos.each do |video| %>
+
+  <div class="video_preview">
+    <%= link_to (video) do %>
+      <img src= <%=video.poster%> /><br>
+    <%end%>
+    <%=video.title%><br>
+    <%=video.desc%>
+  </div>
+
+<% end %>
 <%= link_to 'Edit', edit_series_path(@series) %> |
 <%= link_to 'Back', series_index_path %>

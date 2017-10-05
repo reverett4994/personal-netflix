@@ -39,6 +39,9 @@ class Video < ActiveRecord::Base
           @episode_title= @episode["name"]
           @episode_desc= @episode["overview"]
           @episode_date= @episode["air_date"]
+          @pics = Tmdb::Episode.images(@tv_series_id, self.season, self.episode)
+          @poster= "http://image.tmdb.org/t/p/w780/#{ @pics["stills"][1]["file_path"]}"
+          self.poster=@poster
           self.title=@episode_title
           self.desc=@episode_desc
           self.date=@episode_date.to_date
@@ -52,6 +55,8 @@ class Video < ActiveRecord::Base
       @movie = Tmdb::Movie.detail(@movie_id)
       @movie_desc=@movie["overview"]
       @movie_date=@movie["release_date"]
+      @poster= "http://image.tmdb.org/t/p/w780/#{ @movie["backdrop_path"]}"
+      self.poster=@poster
       self.desc=@movie_desc
       self.date=@movie_date.to_date
     end

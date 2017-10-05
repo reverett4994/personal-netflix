@@ -8,7 +8,12 @@
 </head>
 <body>
   <% if user_signed_in? %>
-    <li> <%= link_to "hello #{current_user.email} Sign Out :(", destroy_user_session_path, :method => :delete %></li>
+    <ul>
+      <li> <%= link_to "hello #{current_user.email} Sign Out :(", destroy_user_session_path, :method => :delete %></li>
+      <li> <%= link_to "Genres", "/genres"%></li>
+      <li> <%= link_to "Series", "/series"%></li>
+      <li> <%= link_to "Videos", "/videos"%></li>
+    </ul>
   <%else%>
     <li><%= link_to 'Sign In!', new_user_session_path %></li>
   <%end%>
