@@ -33,9 +33,12 @@
 
 
 <script>
+var ep_se=""
+var seasonss=[]
 $("img").click(function(){
   $("#dropdown").remove();
   $(this).after("<div id='dropdown'><h1>"+$(this).attr('class')+"</h1></div>");
+  var classs=$(this).attr('class')
   $.ajax({
     type: "POST",
     url: "/get_videos",
@@ -43,17 +46,90 @@ $("img").click(function(){
     data: {"title":$(this).attr('class')},
     success:function(data) {
       var series=data["series"]
-      console.log(data["series"]["desc"]);
       var videos=data["videos"]
       var amount=videos.length
-      $("<h4>"+amount+" episodes</h4>").appendTo( "#dropdown" );
+      $("<h4>"+amount+" episodes<br>Season: </h4>").appendTo( "#dropdown" );
+      var s = $("<select id='seaon_select' class='"+classs+"' />");
+      s.appendTo('#dropdown');
+
       $( "<h2>"+data["series"]["desc"]+"</h2>" ).appendTo( "#dropdown" );
+      $( "<div class='owl-carousel'></div>" ).appendTo( "#dropdown" );
       for(i=0;i<amount;i++){
-        $("<img src="+videos[i]["poster"]+"  />").appendTo( "#dropdown" );
+        if (videos[i]["desc"].length>300) {
+          var desc= videos[i]["desc"].substring(0, 300)+"...";
+        } else {
+          var desc= videos[i]["desc"];
+        };
+        $("<div class='video_divs'><a href='/videos/"+videos[i]["id"]+"'> <img src="+videos[i]["poster"]+"  /> </a> <p class='video_title'>"+videos[i]["title"]+"</p><p class='video_desc'>"+desc+"</h3></div>").appendTo( ".owl-carousel" );
+        ep_se=ep_se+videos[i]["season"]+','
+        ep_se=ep_se.split(",")
+        $.each(ep_se, function(i, el){
+          if($.inArray(el, seasonss) === -1) seasonss.push(el);
+        });
+        seasonss.pop()
+        console.log(seasonss);
       }
-      for(i=0;i<amount;i++){
-        $("<p class='video_desc'>"+videos[i]["desc"]+"</h3>").appendTo( "#dropdown" );
+      $(".owl-carousel").owlCarousel();
+      for(var val in seasonss) {
+          $('<option />', {value: seasonss[val], text: seasonss[val]}).appendTo(s);
       }
+      $('#seaon_select').change(function() {
+          //alert($(this).val());
+          // RESENDS AJAX REQUEST WHEN CHANGING SEASON NUMBER*****************************
+            $(".owl-carousel").remove();
+            $('h2').remove();
+            $('h4').remove();
+            $(this).remove();
+            var classs=$(this).attr('class')
+            $.ajax({
+              type: "POST",
+              url: "/get_videos",
+              dataType:"json",
+              data: {"title":$(this).attr('class')},
+              success:function(data) {
+                var series=data["series"]
+                var videos=data["videos"]
+                var amount=videos.length
+                $("<h4>"+amount+" episodes<br>Season: </h4>").appendTo( "#dropdown" );
+                var s = $("<select id='seaon_select' class='"+classs+"' />");
+                s.appendTo('#dropdown');
+
+                $( "<h2>"+data["series"]["desc"]+"</h2>" ).appendTo( "#dropdown" );
+                $( "<div class='owl-carousel'></div>" ).appendTo( "#dropdown" );
+                for(i=0;i<amount;i++){
+                  if (videos[i]["desc"].length>300) {
+                    var desc= videos[i]["desc"].substring(0, 300)+"...";
+                  } else {
+                    var desc= videos[i]["desc"];
+                  };
+                  $("<div class='video_divs'><a href='/videos/"+videos[i]["id"]+"'> <img src="+videos[i]["poster"]+"  /> </a> <p class='video_title'>"+videos[i]["title"]+"</p><p class='video_desc'>"+desc+"</h3></div>").appendTo( ".owl-carousel" );
+                  ep_se=ep_se+videos[i]["season"]+','
+                  ep_se=ep_se.split(",")
+                  $.each(ep_se, function(i, el){
+                    if($.inArray(el, seasonss) === -1) seasonss.push(el);
+                  });
+                  seasonss.pop()
+                  console.log(seasonss);
+                }
+                $(".owl-carousel").owlCarousel();
+                for(var val in seasonss) {
+                    $('<option />', {value: seasonss[val], text: seasonss[val]}).appendTo(s);
+                }
+                $('#seaon_select').change(function() {
+                    //alert($(this).val());
+                    console.log($(this.parent));
+                    // RESENDS AJAX REQUEST WHEN CHANGING SEASON NUMBER*****************************
+
+                });
+              },
+              error:function(data) {
+                console.log("bad");
+                console.log(data);
+                alert("Error Occurred! Please make sure there is a user using the Email entered.")
+                return false;
+              }
+            });
+      });
     },
     error:function(data) {
       console.log("bad");
@@ -62,8 +138,8 @@ $("img").click(function(){
       return false;
     }
   });
-
 });
+
 
 
 </script>

@@ -16,4 +16,5 @@
 //= require s3_direct_upload
 //= require jquery-fileupload/basic
 //= require dropzone
+//= require owl.carousel
 //= require_tree .
