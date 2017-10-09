@@ -47,17 +47,60 @@
   <%= @video.user.email %>
 </p>
 
+<p>
+  <strong>Time Left off:</strong>
+  <%= @video.left_off %>
+</p>
+
+<p>
+  <strong>Last Watched:</strong>
+  <%= @video.last_watched %>
+</p>
+
 <%= link_to 'Edit', edit_video_path(@video) %> |
 <%= link_to 'Back', videos_path %>
 
 
+<div id="video_container">
+   <video width="400" controls poster=<%=@video.poster%>>
+     <source src=<%=@video.content.url%> type="video/mp4">
+     <source src=<%=@video.content.url%> type="video/ogg">
+     Your browser does not support HTML5 video.
+   </video>
+</div>
 
- <video width="400" controls poster=<%=@video.poster%>>
-   <source src=<%=@video.content.url%> type="video/mp4">
-   <source src=<%=@video.content.url%> type="video/ogg">
-   Your browser does not support HTML5 video.
- </video>
+ <div>Current Video Time : <span  id="currentTime">0</span></div>
+ <div>Total Video time : <span id="totalTime">0</span></div>
 
 
 
-"w92", "w154", "w185", "w342", "w500", "w780", or "original"
+<script>
+$(function(){
+$('#currentTime').html($('#video_container').find('video').get(0).load());
+$('#currentTime').html($('#video_container').find('video').get(0).play());
+})
+setInterval(function(){
+$('#currentTime').html($('#video_container').find('video').get(0).currentTime);
+$('#totalTime').html($('#video_container').find('video').get(0).duration);
+},500)
+
+
+
+
+setInterval(function()
+{
+    $.ajax({
+      type:"post",
+      url:"/set_time",
+      datatype:"json",
+      data: {time:$('#video_container').find('video').get(0).currentTime,video:gon.id},
+      success:function(data)
+      {
+        console.log(data);
+          //do something with response data
+      }
+    });
+}, 30000);//time in milliseconds
+
+
+</script>

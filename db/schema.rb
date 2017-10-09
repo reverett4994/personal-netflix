@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171005060912) do
+ActiveRecord::Schema.define(version: 20171009082456) do
 
   create_table "genres", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -69,8 +69,8 @@ ActiveRecord::Schema.define(version: 20171005060912) do
     t.integer  "episode",              limit: 4
     t.text     "desc",                 limit: 65535
     t.date     "date"
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
     t.integer  "series_id",            limit: 4
     t.integer  "user_id",              limit: 4
     t.string   "content_file_name",    limit: 255
@@ -79,6 +79,8 @@ ActiveRecord::Schema.define(version: 20171005060912) do
     t.datetime "content_updated_at"
     t.string   "content",              limit: 255
     t.string   "poster",               limit: 255
+    t.decimal  "left_off",                           precision: 10
+    t.datetime "last_watched"
   end
 
 end

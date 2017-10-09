@@ -1,6 +1,23 @@
 class VideosController < ApplicationController
   before_action :set_video, only: [:show, :edit, :update, :destroy]
 
+
+  def set_time
+    if params[:time] && params[:video]
+      @time=params[:time]
+      @video=Video.find(params[:video])
+      @video.left_off=@time
+      @video.last_watched= Time.now
+      @video.save
+      respond_to do |format|
+        format.json { render :json => {:time => @time} }
+      end
+
+    else
+
+    end
+
+  end
   # GET /videos
   # GET /videos.json
   def index
@@ -32,6 +49,7 @@ class VideosController < ApplicationController
        @movie_date=@movie["release_date"]
        @poster= "http://image.tmdb.org/t/p/w780/#{ @movie["backdrop_path"]}"
      end
+     gon.id = @video.id
   end
 
   # GET /videos/new

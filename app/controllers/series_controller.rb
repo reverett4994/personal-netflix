@@ -5,9 +5,18 @@ class SeriesController < ApplicationController
   def get_videos
     @series=Series.where("title LIKE ?",params[:title])
     @series=@series.last
-    respond_to do |format|
-      format.json { render :json => {:series => @series, :videos => @series.videos} }
+    if params[:season]
+      @season=params[:season].to_i
+      @videos=@series.videos.where("season LIKE ?",@season)
+      respond_to do |format|
+        format.json { render :json => {:series => @series, :season => @season, :videos => @videos} }
+      end
+    else
+      respond_to do |format|
+        format.json { render :json => {:series => @series, :videos => @series.videos} }
+      end
     end
+
   end
   # GET /series
   # GET /series.json
