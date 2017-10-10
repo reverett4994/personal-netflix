@@ -10,6 +10,9 @@
       <th>Season</th>
       <th>Episode</th>
       <th>Desc</th>
+      <th>Time Left Off</th>
+      <th>Total Length</th>
+      <th>Last Watched</th>
       <th>Date</th>
       <th colspan="3"></th>
     </tr>
@@ -23,6 +26,9 @@
         <td><%= video.season %></td>
         <td><%= video.episode %></td>
         <td><%= video.desc %></td>
+        <td><%= video.left_off %></td>
+        <td><%= video.total_time %></td>
+        <td><%= video.last_watched %></td>
         <td><%= video.date %></td>
         <td><%= link_to 'Show', video %></td>
         <td><%= link_to 'Edit', edit_video_path(video) %></td>

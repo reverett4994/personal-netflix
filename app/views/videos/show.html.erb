@@ -62,7 +62,7 @@
 
 
 <div id="video_container">
-   <video width="400" controls poster=<%=@video.poster%>>
+   <video id="player" width="400" controls poster=<%=@video.poster%>>
      <source src=<%=@video.content.url%> type="video/mp4">
      <source src=<%=@video.content.url%> type="video/ogg">
      Your browser does not support HTML5 video.
@@ -84,7 +84,9 @@ $('#currentTime').html($('#video_container').find('video').get(0).currentTime);
 $('#totalTime').html($('#video_container').find('video').get(0).duration);
 },500)
 
-
+document.getElementById('player').addEventListener('loadedmetadata', function() {
+  this.currentTime = gon.start;
+}, false);
 
 
 setInterval(function()
@@ -93,7 +95,7 @@ setInterval(function()
       type:"post",
       url:"/set_time",
       datatype:"json",
-      data: {time:$('#video_container').find('video').get(0).currentTime,video:gon.id},
+      data: {total:$('#video_container').find('video').get(0).duration,time:$('#video_container').find('video').get(0).currentTime,video:gon.id},
       success:function(data)
       {
         console.log(data);

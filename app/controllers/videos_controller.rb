@@ -3,11 +3,12 @@ class VideosController < ApplicationController
 
 
   def set_time
-    if params[:time] && params[:video]
+    if params[:time] && params[:video] && params[:total]
       @time=params[:time]
       @video=Video.find(params[:video])
       @video.left_off=@time
       @video.last_watched= Time.now
+      @video.total_time=params[:total]
       @video.save
       respond_to do |format|
         format.json { render :json => {:time => @time} }
@@ -50,6 +51,12 @@ class VideosController < ApplicationController
        @poster= "http://image.tmdb.org/t/p/w780/#{ @movie["backdrop_path"]}"
      end
      gon.id = @video.id
+     if @video.left_off != nil
+       gon.start=0.00+@video.left_off
+     else
+       gon.start=0.00
+     end
+
   end
 
   # GET /videos/new

@@ -5,15 +5,24 @@ class SeriesController < ApplicationController
   def get_videos
     @series=Series.where("title LIKE ?",params[:title])
     @series=@series.last
+    @total_seasons=[]
+    @series.videos.each do |v|
+      @total_seasons.push(v.season)
+    end
+    @total_seasons = @total_seasons.uniq
     if params[:season]
       @season=params[:season].to_i
       @videos=@series.videos.where("season LIKE ?",@season)
+      @most_recent= @series.videos.order("last_watched").last.title
       respond_to do |format|
-        format.json { render :json => {:series => @series, :season => @season, :videos => @videos} }
+        format.json { render :json => {:series => @series, :season => @season, :videos => @videos, :last_watched => @most_recent, :total_seasons => @total_seasons} }
       end
     else
+      @most_recent= @series.videos.order("last_watched").last.title
+      @season=@series.videos.order("last_watched").last.season
+      @videos=@series.videos.where("season LIKE ?",@season)
       respond_to do |format|
-        format.json { render :json => {:series => @series, :videos => @series.videos} }
+        format.json { render :json => {:series => @series, :season => @season, :videos => @videos, :last_watched => @most_recent, :total_seasons => @total_seasons} }
       end
     end
 

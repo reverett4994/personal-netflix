@@ -37,8 +37,8 @@ function hasClass(elem, className) {
     return elem.className.split(' ').indexOf(className) > -1;
 }
 
-var ep_se=""
-var seasonss=[]
+
+
 $("img").click(function(){
   $("#dropdown").remove();
   $(this).after("<div id='dropdown'><h1>"+$(this).attr('class')+"</h1></div>");
@@ -49,6 +49,8 @@ $("img").click(function(){
     dataType:"json",
     data: {"title":$(this).attr('class')},
     success:function(data) {
+      var total_seasons=data["total_seasons"];
+      var season=data["season"];
       var series=data["series"]
       var videos=data["videos"]
       var amount=videos.length
@@ -64,18 +66,24 @@ $("img").click(function(){
         } else {
           var desc= videos[i]["desc"];
         };
-        $("<div class='video_divs'><a href='/videos/"+videos[i]["id"]+"'> <img src="+videos[i]["poster"]+"  /> </a> <p class='video_title'>"+videos[i]["title"]+"</p><p class='video_desc'>"+desc+"</h3></div>").appendTo( ".owl-carousel" );
-        ep_se=ep_se+videos[i]["season"]+','
-        ep_se=ep_se.split(",")
-        $.each(ep_se, function(i, el){
-          if($.inArray(el, seasonss) === -1) seasonss.push(el);
-        });
-        seasonss.pop()
+        if (videos[i]["total_time"] != null) {
+          var remaining=(videos[i]["left_off"]/videos[i]["total_time"])*100
+        } else {
+          var remaining=0
+        }
+        // VIDEO DIV
+        $("<div class='video_divs'><a href='/videos/"+videos[i]["id"]+"'> <img src="+videos[i]["poster"]+
+        "  /> </a> <p class='video_title'>"+videos[i]["title"]+
+        "</p><p><div class='meter'><span style='width: "+remaining+"%'></span></div></p>  <p class='video_desc'>"+desc+"</h3></div>").appendTo( ".owl-carousel" );
+
+
       }
       $(".owl-carousel").owlCarousel();
-      for(var val in seasonss) {
-          $('<option />', {value: seasonss[val], text: seasonss[val]}).appendTo(s);
+      $("p:contains("+data["last_watched"]+")").parent().css({"color":"yellow","background-color":"red"})
+      for(var val in total_seasons) {
+          $('<option />', {value: total_seasons[val], text: total_seasons[val]}).appendTo(s);
       }
+      $("#season_select").val(season);
     },
     error:function(data) {
       console.log("bad");
@@ -103,6 +111,7 @@ document.addEventListener('change', function (e) {
                 dataType:"json",
                 data: {"title":name,"season":season_number},
                 success:function(data) {
+                  var total_seasons=data["total_seasons"];
                   var season=data["season"];
                   var series=data["series"];
                   var videos=data["videos"];
@@ -118,25 +127,24 @@ document.addEventListener('change', function (e) {
                     } else {
                       var desc= videos[i]["desc"];
                     };
-                    $("<div class='video_divs'><a href='/videos/"+videos[i]["id"]+"'> <img src="+videos[i]["poster"]+"  /> </a> <p class='video_title'>"+videos[i]["title"]+"</p><p class='video_desc'>"+desc+"</h3></div>").appendTo( ".owl-carousel" );
-                    ep_se=ep_se+videos[i]["season"]+','
-                    ep_se=ep_se.split(",")
-                    $.each(ep_se, function(i, el){
-                      if($.inArray(el, seasonss) === -1) seasonss.push(el);
-                    });
-                    seasonss.pop()
+                    if (videos[i]["total_time"] != null) {
+                      var remaining=(videos[i]["left_off"]/videos[i]["total_time"])*100
+                    } else {
+                      var remaining=0
+                    }
+                    // VIDEO DIV
+                    $("<div class='video_divs'><a href='/videos/"+videos[i]["id"]+"'> <img src="+videos[i]["poster"]+
+                    "  /> </a> <p class='video_title'>"+videos[i]["title"]+
+                    "</p><p><div class='meter'><span style='width: "+remaining+"%'></span></div></p>  <p class='video_desc'>"+desc+"</h3></div>").appendTo( ".owl-carousel" );
+
                   }
                   $(".owl-carousel").owlCarousel();
-                  for(var val in seasonss) {
-                      $('<option />', {value: seasonss[val], text: seasonss[val]}).appendTo(s);
+                  console.log(data["last_watched"]);
+                  $("p:contains("+data["last_watched"]+")").parent().css({"color":"yellow","background-color":"red"})
+                  for(var val in total_seasons) {
+                      $('<option />', {value: total_seasons[val], text: total_seasons[val]}).appendTo(s);
                   }
                   $("#season_select").val(season);
-                  $('#seaon_select').change(function() {
-                      //alert($(this).val());
-                      console.log($(this.parent));
-                      // RESENDS AJAX REQUEST WHEN CHANGING SEASON NUMBER*****************************
-
-                  });
                 },
                 error:function(data) {
                   console.log("bad");
