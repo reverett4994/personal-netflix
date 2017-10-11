@@ -62,7 +62,7 @@
 
 
 <div id="video_container">
-   <video id="player" width="400" controls poster=<%=@video.poster%>>
+   <video id="player" width="400" controls autoplay poster=<%=@video.poster%>>
      <source src=<%=@video.content.url%> type="video/mp4">
      <source src=<%=@video.content.url%> type="video/ogg">
      Your browser does not support HTML5 video.
@@ -75,6 +75,7 @@
 
 
 <script>
+
 $(function(){
 $('#currentTime').html($('#video_container').find('video').get(0).load());
 $('#currentTime').html($('#video_container').find('video').get(0).play());
@@ -103,6 +104,66 @@ setInterval(function()
       }
     });
 }, 30000);//time in milliseconds
+
+
+
+
+var end_popup = setInterval(function()
+{
+  if ($('#video_container').find('video').get(0).currentTime == $('#video_container').find('video').get(0).duration) {
+    swal("What Next?", {
+      buttons: {
+        cancel: "Return to video browser",
+        catch: {
+          text: "Replay",
+          value: "catch",
+        },
+        next: "Next Video",
+      },
+    })
+    .then((value) => {
+      switch (value) {
+
+        case "next":
+          if (gon.next_eps=="end") {
+            swal({
+              icon: "warning",
+              title: "Thats It!",
+              text: "No more episodes found :("
+            });
+          } else {
+            document.location.href = gon.next_eps;
+          }
+          break;
+
+        case "catch":
+          $('#video_container').find('video').get(0).currentTime=0
+          $('#player').get(0).play();
+          break;
+
+        default:
+          document.location.href = "/series";
+      }
+    });
+    clearInterval(end_popup)
+
+    //ADD COUNTER
+     $(".swal-text").after("<div class='countdown'>Next episode in <span id='clock'></span></div>");
+     var fiveSeconds = new Date().getTime() + 10000;
+     $('#clock').countdown(fiveSeconds, function(event) {
+       $(this).html(event.strftime('%S Seconds'));
+     });
+     // AUTO CLICK AFTER 10 SECONDS
+    var auto_click = setInterval(function()
+    {
+        $(".swal-button--next").click()
+        clearInterval(auto_click)
+    }, 10000);//time in milliseconds
+
+
+  }
+}, 1000);//time in milliseconds
+
 
 
 </script>

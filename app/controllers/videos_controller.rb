@@ -40,6 +40,23 @@ class VideosController < ApplicationController
        @episode_date= @episode["air_date"]
        @pics = Tmdb::Episode.images(@tv_series_id, @video.season, @video.episode)
        @poster= "http://image.tmdb.org/t/p/w780/#{ @pics["stills"][1]["file_path"]}"
+
+       @season_eps= @video.series.videos.where("season LIKE #{@video.season} AND episode > #{@video.episode}").all
+
+       if @season_eps.count > 0
+         @season_eps=@season_eps.sort_by &:episode
+         @next_eps=@season_eps.first
+         gon.next_eps="/videos/#{@next_eps.id}"
+       elsif  @video.series.videos.where("season > #{@video.season}").all.count > 0
+         @season_eps= @video.series.videos.where("season > #{@video.season}").all
+         @season_eps=@season_eps.sort_by {|x| [x.season, x.episode] }
+         @next_eps=@season_eps.first
+         gon.next_eps="/videos/#{@next_eps.id}"
+       else
+         gon.next_eps="end"
+       end
+
+
      elsif @video.production_type.downcase == "movie"
        @search = Tmdb::Search.new
        @search.resource('movie')
