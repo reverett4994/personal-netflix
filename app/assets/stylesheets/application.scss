@@ -19,6 +19,57 @@
  *= require owl.theme
  *= require_self
  */
+ //*****************************HEADER***************************************//
+#header{
+  background-color: #7EA3CF;
+  height: 5.1em;
+  width: 100vw;
+  #logo{
+    display: inline-block;
+    width: 5em;
+    height: 5em;
+    background-image: url('/logo2.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 150%;
+    float: left;
+  }
+  ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #7EA3CF;
+      color: white;
+      height: 100%;
+  }
+
+  li {
+      float: left;
+      height: 100%;
+  }
+
+  li a {
+      display: block;
+      color: white;
+      text-align: center;
+      padding: 1.8em 16px;
+      text-decoration: none;
+  }
+
+  li a:hover:not(.active) {
+      background-color: #f4ea7a !important;
+      color: #7EA3CF !important;
+  }
+
+  .active {
+      background-color: #4CAF50;
+  }
+}
+
+
+
+ //*****************************HEADER***************************************//
 
 
 
@@ -123,6 +174,8 @@
  html,
  body {
    height: 100%;
+   width: 100vw;
+   margin: 0;
  }
 
  .loader {

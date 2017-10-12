@@ -9,16 +9,19 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <div id="header">
+    <div id='logo'></div>
   <% if user_signed_in? %>
     <ul>
-      <li> <%= link_to "hello #{current_user.email} Sign Out :(", destroy_user_session_path, :method => :delete %></li>
       <li> <%= link_to "Genres", "/genres"%></li>
       <li> <%= link_to "Series", "/series"%></li>
       <li> <%= link_to "Videos", "/videos"%></li>
+      <li style="float:right"> <%= link_to "hello #{current_user.email} Sign Out :(", destroy_user_session_path, :method => :delete %></li>
     </ul>
   <%else%>
     <li><%= link_to 'Sign In!', new_user_session_path %></li>
   <%end%>
+</div>
   <!-- notcie and alert from devise gem -->
   <p class="notice"><%= notice %></
   <p class="alert"><%= alert %></p>
