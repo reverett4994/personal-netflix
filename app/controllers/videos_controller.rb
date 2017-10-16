@@ -1,6 +1,9 @@
 class VideosController < ApplicationController
   before_action :set_video, only: [:show, :edit, :update, :destroy]
 
+  def movies
+    @videos=Video.where("production_type LIKE ?",'movie')
+  end
 
   def set_time
     if params[:time] && params[:video] && params[:total]
@@ -39,7 +42,12 @@ class VideosController < ApplicationController
        @episode_desc= @episode["overview"]
        @episode_date= @episode["air_date"]
        @pics = Tmdb::Episode.images(@tv_series_id, @video.season, @video.episode)
-       @poster= "http://image.tmdb.org/t/p/w780/#{ @pics["stills"][1]["file_path"]}"
+       if @pics["stills"][1]==nil
+         @poster= "http://image.tmdb.org/t/p/w780/#{ @pics["stills"][0]["file_path"]}"
+       else
+         @poster= "http://image.tmdb.org/t/p/w780/#{ @pics["stills"][1]["file_path"]}"
+       end
+
 
        @season_eps= @video.series.videos.where("season LIKE #{@video.season} AND episode > #{@video.episode}").all
 

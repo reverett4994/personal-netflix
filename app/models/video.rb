@@ -4,7 +4,8 @@ class Video < ActiveRecord::Base
    belongs_to :series
    belongs_to :user
    validate :content_type
-   before_validation :add_title_and_desc
+   after_validation  :add_title_and_desc
+   #validate :add_title_and_desc, :on => :create
    mount_uploader :content, ContentUploader
   #  has_attached_file :content, default_url: "/images/:style/missing.png"
    # validates_attachment_content_type :content, content_type: /\Avideo\/.*\z/
@@ -40,11 +41,19 @@ class Video < ActiveRecord::Base
           @episode_desc= @episode["overview"]
           @episode_date= @episode["air_date"]
           @pics = Tmdb::Episode.images(@tv_series_id, self.season, self.episode)
-          @poster= "http://image.tmdb.org/t/p/w780/#{ @pics["stills"][1]["file_path"]}"
-          self.poster=@poster
-          self.title=@episode_title
-          self.desc=@episode_desc
-          self.date=@episode_date.to_date
+          if @pics["stills"][1]==nil
+            @poster= "http://image.tmdb.org/t/p/w780/#{ @pics["stills"][0]["file_path"]}"
+          else
+            @poster= "http://image.tmdb.org/t/p/w780/#{ @pics["stills"][1]["file_path"]}"
+          end
+          self.date = @episode_date.to_date
+          self.poster = @poster
+          if self.title==""
+            self.title = @episode_title
+          end
+          if self.desc==""
+            self.desc = @episode_desc
+          end
         end
       end
     elsif self.production_type.downcase=="movie"
@@ -55,7 +64,7 @@ class Video < ActiveRecord::Base
       @movie = Tmdb::Movie.detail(@movie_id)
       @movie_desc=@movie["overview"]
       @movie_date=@movie["release_date"]
-      @poster= "http://image.tmdb.org/t/p/w780/#{ @movie["backdrop_path"]}"
+      @poster= "http://image.tmdb.org/t/p/w780/#{ @movie["poster_path"]}"
       self.poster=@poster
       self.desc=@movie_desc
       self.date=@movie_date.to_date

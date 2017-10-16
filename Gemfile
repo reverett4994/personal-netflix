@@ -67,7 +67,7 @@ gem 's3_direct_upload'
 
 gem 'dropzonejs-rails'
 
-gem 'owlcarousel-rails'
+gem 'owlcarousel2'
 
 gem 'gon'
 

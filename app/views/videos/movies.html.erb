@@ -1,0 +1,22 @@
+
+<h1>Listing Movies</h1>
+
+<div id='movies_index_wrapper'>
+    <% @videos.each do |video| %>
+        <%= image_tag(video.poster)%>
+    <% end %>
+</div>
+
+
+
+<script>
+
+
+
+
+$("img").click(function(){
+  $("#dropdown").remove();
+  $(this).after("<div id='dropdown'</div>");
+})
+
+  </script>

@@ -15,15 +15,25 @@
  *= require jquery.fileupload
  *= require jquery.fileupload-ui
  *= require dropzone/dropzone
- *= require owl.carousel
- *= require owl.theme
+
  *= require_self
+ *
+    font-family: 'Sarala', sans-serif;
+
+    font-family: 'Lato', sans-serif;
+
  */
+@import 'owlcarousel2/owl.carousel';
+
+ body{
+   background-color: #EAE0C7;
+ }
  //*****************************HEADER***************************************//
 #header{
   background-color: #7EA3CF;
   height: 5.1em;
   width: 100vw;
+  font-family: 'Sarala', sans-serif;
   #logo{
     display: inline-block;
     width: 5em;
@@ -33,8 +43,12 @@
     background-repeat: no-repeat;
     background-size: 150%;
     float: left;
+    padding-right: 1em;
+    padding-left: 1em;
   }
   ul {
+    font-family: 'Sarala', sans-serif;
+    font-size: 1.5em;
       list-style-type: none;
       margin: 0;
       padding: 0;
@@ -53,7 +67,7 @@
       display: block;
       color: white;
       text-align: center;
-      padding: 1.8em 16px;
+      padding: 1.3em 16px;
       text-decoration: none;
   }
 
@@ -71,6 +85,78 @@
 
  //*****************************HEADER***************************************//
 
+
+ //*****************************VIDEO SHHOW***************************************//
+
+#video_show_wrapper{
+  height: 100vh;
+  width: 100vw;
+
+  video{
+    width: 90%;
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  h1{
+    text-align: center;
+    margin-top: 2em;
+    font-size: 7em;
+    font-family: 'Sarala', sans-serif;
+  }
+
+  h2{
+    text-align: center;
+    margin-top: 2em;
+    font-size: 4em;
+    font-family: 'Sarala', sans-serif;
+  }
+
+  p{
+    margin-top: 2em;
+    font-size: 1.5em;
+    font-family: 'Sarala', sans-serif;
+    padding-left: 15em;
+    padding-right: 15em;
+    line-height: 1.5em;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 70%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: 'Sarala', sans-serif;
+    font-size: 1.7em;
+  }
+
+  th, td {
+      text-align: left;
+      padding: 8px;
+      border-bottom: 1px solid black;
+  }
+  tr{
+    //background-color: #7EA3CF;
+    color: black;
+  }
+
+}
+
+ //*****************************VIDEO SHHOW***************************************//
+
+
+ //*****************************MOVIES INDEX***************************************//
+
+#movies_index_wrapper{
+  img{
+    width: 24%;
+  }
+}
+
+ //*****************************MOVIES INDEX***************************************//
 
 
  $colors:
@@ -175,6 +261,7 @@
  body {
    height: 100%;
    width: 100vw;
+   max-width: 100vw;
    margin: 0;
  }
 
@@ -238,12 +325,14 @@
 
 
 #dropdown{
+  font-family: 'Sarala', sans-serif;
+  color: white;
   box-sizing: border-box;
   clear: both;
-  background-color: skyblue;
+  background-color: #7EA3CF;
   width: 100%;
   max-width: 100%;
-  height: 50em;
+  height: 60em;
   padding: 2em;
   .video_divs{
     display: inline-block;
@@ -252,7 +341,28 @@
     height: 100%;
     vertical-align:top;
   }
-
+  h1{
+    color: #F2E980;
+    text-align: center;
+    font-size: 3em;
+    margin-bottom: 1.5em;
+  }
+  h4{
+    display: inline-block;
+    padding-left: 2.5em;
+    line-height: 2em;
+    margin: 0;
+  }
+  h2{
+    color: #F2E980;
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: .5em;
+    line-height: 1em;
+  }
+  select{
+    margin-left: -1em;
+  }
   img{
     width: 100%;
   }
@@ -261,9 +371,14 @@
     display: inline-block;
   }
 }
+.owl-carousel{
 
+}
 .owl-item{
-  margin-left: 1.3em;
+  font-family: 'Lato', sans-serif;
+  font-size: 1.5em;
+  margin-top: -.5em;
+  width: 20em;
 }
 
 

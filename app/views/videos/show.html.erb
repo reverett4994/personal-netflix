@@ -1,78 +1,70 @@
-<p id="notice"><%= notice %></p>
+<div id='video_show_wrapper'>
 
-<p>
-  <strong>Type:</strong>
-  <%= @video.production_type %>
-</p>
+  <div id="video_container">
+     <video id="player" width="400" controls autoplay poster=<%=@video.poster%>>
+       <source src=<%=@video.content.url%> type="video/mp4">
+       <source src=<%=@video.content.url%> type="video/ogg">
+       Your browser does not support HTML5 video.
+     </video>
+  </div>
 
-<p>
-  <strong>Title:</strong>
-  <%= @video.title %>
-</p>
-
-<p>
-  <strong>Season:</strong>
-  <%= @video.season %>
-</p>
-
-<p>
-  <strong>Episode:</strong>
-  <%= @video.episode %>
-</p>
-
-<p>
-  <strong>Desc:</strong>
-  <%= @video.desc %>
-</p>
-
-<p>
-  <strong>Date:</strong>
-  <%= @video.date %>
-</p>
-
-<p>
-  <strong>Genres:</strong>
-  <% @video.genres.each do |g| %>
-    <%g.name%><br>
-  <%end%>
-</p>
-
-<p>
-  <strong>Series:</strong>
-  <%= @video.series != nil ? @video.series.title : "no series"    %>
-</p>
-
-<p>
-  <strong>User:</strong>
-  <%= @video.user.email %>
-</p>
-
-<p>
-  <strong>Time Left off:</strong>
-  <%= @video.left_off %>
-</p>
-
-<p>
-  <strong>Last Watched:</strong>
-  <%= @video.last_watched %>
-</p>
-
-<%= link_to 'Edit', edit_video_path(@video) %> |
-<%= link_to 'Back', videos_path %>
+  <h1>Video Information</h1>
+  <table>
+  <tr>
+    <th>Title</th>
+    <td><%= @video.title %></td>
+  </tr>
+  <tr>
+    <th>Season</th>
+    <td><%= @video.season%></td>
+  </tr>
+  <tr>
+    <th>Episode</th>
+    <td><%= @video.episode%></td>
+  </tr>
+  <tr>
+    <th>Air Date</th>
+    <td><%= @video.date%></td>
+  </tr>
+  <tr>
+    <th>Series</th>
+    <td><%= @video.series.title%></td>
+  </tr>
+  <tr>
+    <th>Last Watched</th>
+    <td><%= @video.last_watched%></td>
+  </tr>
+</table>
+<h2>Description</h2>
+  <p><%= @video.desc %></p>
 
 
-<div id="video_container">
-   <video id="player" width="400" controls autoplay poster=<%=@video.poster%>>
-     <source src=<%=@video.content.url%> type="video/mp4">
-     <source src=<%=@video.content.url%> type="video/ogg">
-     Your browser does not support HTML5 video.
-   </video>
+
+   <p>
+     <strong>Genres:</strong>
+     <% @video.genres.each do |g| %>
+       <%g.name%><br>
+     <%end%>
+   </p>
+
+
+   <%= link_to 'Edit', edit_video_path(@video) %> |
+   <%= link_to 'Back', videos_path %>
+
+
+
+   <%@search.resource('tv')%>
+    <% @search.query("family guy")%>
+    <% @tv_series_id=@search.fetch[0]["id"]%>
+      <% @episode = Tmdb::Episode.detail(@search.fetch[0]["id"] , 15, 9)%>
+      <%= @episode_title= @episode%>
+      <% @episode_desc= @episode["overview"]%>
+      <% @episode_date= @episode["air_date"]%>
+    <%  @pics = Tmdb::Episode.images(@tv_series_id, 15, 05)%>
+<%if @pics["stills"][1]==nil %>
+
+ <%end%>
 </div>
-
- <div>Current Video Time : <span  id="currentTime">0</span></div>
- <div>Total Video time : <span id="totalTime">0</span></div>
-
-
 
 <script>
 
