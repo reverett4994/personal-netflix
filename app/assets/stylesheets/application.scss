@@ -152,7 +152,27 @@
 
 #movies_index_wrapper{
   img{
-    width: 24%;
+    width: 24% ;
+  }
+}
+
+.movie_preview_div{
+
+  img{
+    width: 55% !important;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  p{
+    color: #F2E980;
+    text-align: center;
+    font-size: 1.5em;
+    font-family: 'Sarala', sans-serif;
+    padding-left: 5em;
+    padding-right: 5em;
+    line-height: 1.5em;
   }
 }
 

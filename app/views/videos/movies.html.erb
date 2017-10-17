@@ -1,9 +1,17 @@
 
 <h1>Listing Movies</h1>
-
+<%@counter=1%>
 <div id='movies_index_wrapper'>
     <% @videos.each do |video| %>
-        <%= image_tag(video.poster)%>
+        <% if @counter == 1%>
+          <div>
+        <%end%>
+        <%= image_tag(video.poster, :class => "#{video.title}", :id=>@counter)%>
+        <%@counter+=1%>
+        <% if @counter == 5 %>
+          </div>
+          <%@counter=1%>
+        <%end%>
     <% end %>
 </div>
 
@@ -16,7 +24,46 @@
 
 $("img").click(function(){
   $("#dropdown").remove();
-  $(this).after("<div id='dropdown'</div>");
+
+
+    $(this).parent().after("<div id='dropdown'><h1>"+$(this).attr('class')+"</h1></div>");
+
+
+  var classs=$(this).attr('class')
+  $.ajax({
+    type: "POST",
+    url: "/get_movie",
+    dataType:"json",
+    data: {"title":$(this).attr('class')},
+    success:function(data) {
+      console.log(data);
+
+
+//        if (videos[i]["desc"].length>300) {
+//          var desc= videos[i]["desc"].substring(0, 300)+"...";
+//        } else {
+//          var desc= videos[i]["desc"];
+//        };
+//        if (videos[i]["total_time"] != null) {
+//          var remaining=(videos[i]["left_off"]/videos[i]["total_time"])*100
+//        } else {
+//          var remaining=0
+//        }
+        // VIDEO DIV
+        $("<div class='movie_preview_div'><a href='/videos/"+data["id"]+"'> <img src='"+data["img"]+
+       "'></a><p><div class='meter'><span style='width: "+data["remaining"]+"%'></span></div></p>  <p class='movie_desc'>"+data["desc"]+"</h3></div>").appendTo( "#dropdown" );
+
+
+    },
+    error:function(data) {
+      console.log("bad");
+      console.log(data);
+      alert("Error Occurred! Please make sure there is a user using the Email entered.")
+      return false;
+    }
+  });
+
+
 })
 
   </script>

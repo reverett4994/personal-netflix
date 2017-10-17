@@ -1,5 +1,6 @@
-<div id='video_show_wrapper'>
 
+<% if @video.production_type.downcase == 'tv'%>
+<div id='video_show_wrapper'>
   <div id="video_container">
      <video id="player" width="400" controls autoplay poster=<%=@video.poster%>>
        <source src=<%=@video.content.url%> type="video/mp4">
@@ -7,7 +8,6 @@
        Your browser does not support HTML5 video.
      </video>
   </div>
-
   <h1>Video Information</h1>
   <table>
   <tr>
@@ -37,7 +37,35 @@
 </table>
 <h2>Description</h2>
   <p><%= @video.desc %></p>
+<%elsif @video.production_type.downcase == 'movie'%>
+<div id='video_show_wrapper'>
+  <div id="video_container">
+     <video id="player" width="400" controls autoplay poster=<%=@video.movie_img%>>
+       <source src=<%=@video.content.url%> type="video/mp4">
+       <source src=<%=@video.content.url%> type="video/ogg">
+       Your browser does not support HTML5 video.
+     </video>
+  </div>
 
+  <h1>Video Information</h1>
+
+  <table>
+  <tr>
+    <th>Title</th>
+    <td><%= @video.title %></td>
+  </tr>
+  <tr>
+    <th>Release Date</th>
+    <td><%= @video.date%></td>
+  </tr>
+  <tr>
+    <th>Last Watched</th>
+    <td><%= @video.last_watched%></td>
+  </tr>
+</table>
+<h2>Description</h2>
+<p><%= @video.desc %></p>
+<%end%>
 
 
    <p>
@@ -51,19 +79,6 @@
    <%= link_to 'Edit', edit_video_path(@video) %> |
    <%= link_to 'Back', videos_path %>
 
-
-
-   <%@search.resource('tv')%>
-    <% @search.query("family guy")%>
-    <% @tv_series_id=@search.fetch[0]["id"]%>
-      <% @episode = Tmdb::Episode.detail(@search.fetch[0]["id"] , 15, 9)%>
-      <%= @episode_title= @episode%>
-      <% @episode_desc= @episode["overview"]%>
-      <% @episode_date= @episode["air_date"]%>
-    <%  @pics = Tmdb::Episode.images(@tv_series_id, 15, 05)%>
-<%if @pics["stills"][1]==nil %>
-
- <%end%>
 </div>
 
 <script>

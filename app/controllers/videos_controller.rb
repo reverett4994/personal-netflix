@@ -5,6 +5,19 @@ class VideosController < ApplicationController
     @videos=Video.where("production_type LIKE ?",'movie')
   end
 
+  def get_movie
+    @movie=Video.where("title LIKE ?",params[:title])
+    @movie=@movie.last
+            if @movie.total_time.nil?
+               @remaining=0
+            else
+               @remaining=(@movie.left_off.to_f/@movie.total_time.to_f)*100
+            end
+    respond_to do |format|
+      format.json { render :json => {:desc =>@movie.desc , :img => @movie.movie_img, id:@movie.id, remaining:@remaining} }
+    end
+  end
+
   def set_time
     if params[:time] && params[:video] && params[:total]
       @time=params[:time]

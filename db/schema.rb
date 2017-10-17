@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171010062340) do
+ActiveRecord::Schema.define(version: 20171017073526) do
 
   create_table "genres", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -82,6 +82,7 @@ ActiveRecord::Schema.define(version: 20171010062340) do
     t.decimal  "left_off",                           precision: 10, default: 0
     t.datetime "last_watched"
     t.decimal  "total_time",                         precision: 10
+    t.string   "movie_img",            limit: 255
   end
 
 end

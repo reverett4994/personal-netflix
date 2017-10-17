@@ -65,7 +65,9 @@ class Video < ActiveRecord::Base
       @movie_desc=@movie["overview"]
       @movie_date=@movie["release_date"]
       @poster= "http://image.tmdb.org/t/p/w780/#{ @movie["poster_path"]}"
+      @movie_img="http://image.tmdb.org/t/p/w780/#{ @movie["backdrop_path"]}"
       self.poster=@poster
+      self.movie_img=@movie_img
       self.desc=@movie_desc
       self.date=@movie_date.to_date
     end
