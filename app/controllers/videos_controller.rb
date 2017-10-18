@@ -8,13 +8,14 @@ class VideosController < ApplicationController
   def get_movie
     @movie=Video.where("title LIKE ?",params[:title])
     @movie=@movie.last
+    @desc=@movie.desc[0..300].gsub(/\s\w+\s*$/, '...')
             if @movie.total_time.nil?
                @remaining=0
             else
                @remaining=(@movie.left_off.to_f/@movie.total_time.to_f)*100
             end
     respond_to do |format|
-      format.json { render :json => {:desc =>@movie.desc , :img => @movie.movie_img, id:@movie.id, remaining:@remaining} }
+      format.json { render :json => {:desc =>@desc , :img => @movie.movie_img, id:@movie.id, remaining:@remaining} }
     end
   end
 

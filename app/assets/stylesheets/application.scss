@@ -170,9 +170,11 @@
     text-align: center;
     font-size: 1.5em;
     font-family: 'Sarala', sans-serif;
-    padding-left: 5em;
-    padding-right: 5em;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
     line-height: 1.5em;
+    max-width: 55%;
   }
 }
 

@@ -5,6 +5,17 @@ class GenresController < ApplicationController
   # GET /genres.json
   def index
     @genres = Genre.all
+    if params[:genre] && params[:type]
+      @genre= params[:genre]
+      @type= params[:type]
+      @genre=Genre.where("name LIKE ?",@genre).last
+      if @type == "series"
+        @videos=@genre.series
+      else
+        @videos=@genre.videos.where("production_type LIKE ?",@type)
+      end
+    end
+
   end
 
   # GET /genres/1

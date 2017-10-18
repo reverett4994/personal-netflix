@@ -2,32 +2,18 @@
 
 <h1>Listing Series</h1>
 
-<table>
-
-
-  <tbody>
-    <%@counter=1%>
-    <% @series.each do |series| %>
+  <%@counter=1%>
+  <% @series.each do |series| %>
     <%@search = Tmdb::Search.new %>
     <%@search.resource('tv') %>
     <%@search.query(series.title) %>
     <%@tv_series_id=@search.fetch[0]["id"] %>
     <%@pics = Tmdb::TV.images(@tv_series_id) %>
     <% @pics['backdrops'][1]["file_path"] %>
-      <% if false%>
-        <tr>
-          <td><%= series.title %></td>
-          <td><%= series.desc %></td>
-          <td><%= link_to 'Show', series %></td>
-          <td><%= link_to 'Edit', edit_series_path(series) %></td>
-          <td><%= link_to 'Destroy', series, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        </tr>
-      <%end%>
-        <%= image_tag("http://image.tmdb.org/t/p/w780/#{@pics['backdrops'][1]["file_path"]}", :class => "#{series.title}", :id=>@counter)%>
-        <%@counter+=1%>
-    <% end %>
-  </tbody>
-</table>
+    <%= image_tag("http://image.tmdb.org/t/p/w780/#{@pics['backdrops'][1]["file_path"]}", :class => "#{series.title}", :id=>@counter)%>
+    <%@counter+=1%>
+  <% end %>
+
 <br>
 
 <%= link_to 'New Series', new_series_path %>
