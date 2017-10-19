@@ -20,8 +20,8 @@
     <%= f.collection_check_boxes(:series_ids, Series.all, :id, :title) %>
   </div>
   <div class="field">
-    <%= f.label :videos %><br>
-    <%= f.collection_check_boxes(:video_ids, Video.all, :id, :title) %>
+    <%= f.label :videos, "Movies" %><br>
+    <%= f.collection_check_boxes(:video_ids, Video.where("production_type LIKE ?",'movie'), :id, :title) %>
   </div>
   <div class="actions">
     <%= f.submit %>

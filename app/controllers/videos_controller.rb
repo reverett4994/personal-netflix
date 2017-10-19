@@ -1,6 +1,30 @@
 class VideosController < ApplicationController
   before_action :set_video, only: [:show, :edit, :update, :destroy]
 
+  def manage_genre
+
+    @genre=Genre.where("name LIKE ?",params[:genre].humanize.downcase)
+    @genre=@genre.last
+    if params[:movie]=="true"
+      @video=Video.find(params[:id])
+    else
+      @video=Series.find(params[:id])
+    end
+
+    if @video.genres.include? @genre
+      @video.genres.delete(@genre)
+      respond_to do |format|
+        format.json { render :json => {:report =>"remove" } }
+      end
+    else
+      @video.genres<<@genre
+      respond_to do |format|
+        format.json { render :json => {:report =>"add" } }
+      end
+    end
+
+  end
+
   def movies
     @videos=Video.where("production_type LIKE ?",'movie')
   end
@@ -77,7 +101,8 @@ class VideosController < ApplicationController
        else
          gon.next_eps="end"
        end
-
+       gon.genre_id = @video.series.id
+       gon.movie=false
 
      elsif @video.production_type.downcase == "movie"
        @search = Tmdb::Search.new
@@ -88,7 +113,14 @@ class VideosController < ApplicationController
        @movie_desc=@movie["overview"]
        @movie_date=@movie["release_date"]
        @poster= "http://image.tmdb.org/t/p/w780/#{ @movie["backdrop_path"]}"
+       gon.genre_id = @video.id
+       gon.movie=true
      end
+     @genres=[]
+     @video.genres.each do |g|
+       @genres.push(g.name.parameterize.underscore)
+     end
+     gon.genres=@genres
      gon.id = @video.id
      if @video.left_off != nil
        gon.start=0.00+@video.left_off

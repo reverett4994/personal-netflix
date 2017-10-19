@@ -37,6 +37,18 @@
 </table>
 <h2>Description</h2>
   <p><%= @video.desc %></p>
+
+  <div class='genre_form'>
+    <select>
+      <option disabled selected value> -- select an option -- </option>
+      <% Genre.all.each do |g| %>
+        <option value=<%=g.name.parameterize.underscore.downcase%>><%=g.name%></option>
+      <%end%>
+    </select>
+    <button class="button button1">Add/Remove Genre</button>
+  </div>
+
+
 <%elsif @video.production_type.downcase == 'movie'%>
 <div id='video_show_wrapper'>
   <div id="video_container">
@@ -65,6 +77,16 @@
 </table>
 <h2>Description</h2>
 <p><%= @video.desc %></p>
+
+<div class='genre_form'>
+  <select>
+    <option disabled selected value> -- select an option -- </option>
+    <% Genre.all.each do |g| %>
+      <option value=<%=g.name.parameterize.underscore.downcase%>><%=g.name%></option>
+    <%end%>
+  </select>
+  <button class="button button1">Add/Remove Genre</button>
+</div>
 <%end%>
 
 
@@ -82,6 +104,65 @@
 </div>
 
 <script>
+$("select").prop("selectedIndex", 0);
+$("select").change(function(){
+    //alert(($(this)).val());
+    console.log(gon.genres);
+    if (gon.genres.indexOf( $(this).val()) > -1) {
+      $("button").text("Remove Genre")
+    } else {
+      $("button").text("Add Genre")
+    }
+});
+$("button").click(function(){
+  if (gon.movie==true) {
+    $.ajax({
+      type:"post",
+      url:"/manage_genre",
+      datatype:"json",
+      data: {id:gon.genre_id,genre:$("select").val(),movie:true },
+      success:function(data)
+      {
+        console.log(data);
+        if (data["report"]=="add") {
+          gon.genres.push($("select").val());
+          $("button").text("Remove Genre")
+          console.log(gon.genres);
+        } else {
+          var index= gon.genres.indexOf( $("select").val() );
+          gon.genres.splice(index,1);
+          $("button").text("Add Genre")
+          console.log(gon.genres);
+        }
+      }
+    });
+  } else {
+    $.ajax({
+      type:"post",
+      url:"/manage_genre",
+      datatype:"json",
+      data: {id:gon.genre_id,genre:$("select").val(),movie:false },
+      success:function(data)
+      {
+        console.log(data);
+        if (data["report"]=="add") {
+          gon.genres.push($("select").val());
+          $("button").text("Remove Genre")
+          console.log(gon.genres);
+        } else {
+          var index= gon.genres.indexOf( $("select").val() );
+          gon.genres.splice(index,1);
+          $("button").text("Add Genre")
+          console.log(gon.genres);
+        }
+      }
+    });
+  }
+
+});
+
+
+//**********************************************************************
 
 $(function(){
 $('#currentTime').html($('#video_container').find('video').get(0).load());
