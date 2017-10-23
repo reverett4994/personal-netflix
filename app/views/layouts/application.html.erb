@@ -18,7 +18,10 @@
       <li> <%= link_to "Series", "/series"%></li>
       <li> <%= link_to "Movies", "/movies"%></li>
       <li> <%= link_to "Videos", "/videos"%></li>
-      <li style="float:right"> <%= link_to "hello #{current_user.email} Sign Out :(", destroy_user_session_path, :method => :delete %></li>
+      <li style="float:right"> <%= link_to "Sign Out", destroy_user_session_path, :method => :delete %></li>
+      <%= form_tag('/search', :method => :get) do -%>
+        <div><%= text_field_tag 'search' %></div>
+      <% end -%>
     </ul>
   <%else%>
     <li><%= link_to 'Sign In!', new_user_session_path %></li>

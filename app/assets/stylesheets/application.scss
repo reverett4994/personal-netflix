@@ -32,7 +32,8 @@
 #header{
   background-color: #7EA3CF;
   height: 5.1em;
-  width: 100vw;
+  width: 99vw;
+  max-width: 99vw;
   font-family: 'Sarala', sans-serif;
   #logo{
     display: inline-block;
@@ -81,7 +82,28 @@
   }
 }
 
-
+input[type='text']{
+  background: #dae4f1 url("search.png") no-repeat 99% 50%;
+  background-size: 110%;
+  font-size: 1em;
+  padding: .3em;
+  display: inline-block;
+  float: right;
+  margin-top: .9em;
+  margin-right: .2em;
+  border: none;
+  width: 1em;
+  -webkit-transition: all .5s ease;
+  -moz-transition: all .5s ease;
+  transition: all .5s ease;
+  border-radius: 100%
+}
+input[type='text']:focus {
+   width: 10em;
+   border-radius: 5%;
+   background: #fafafa url("search.png") no-repeat 99% 50%;
+   background-size: 10%;
+}
 
  //*****************************HEADER***************************************//
 
@@ -118,8 +140,8 @@
     margin-top: 2em;
     font-size: 1.5em;
     font-family: 'Sarala', sans-serif;
-    padding-left: 15em;
-    padding-right: 15em;
+    padding-left: 15%;
+    padding-right: 15%;
     line-height: 1.5em;
   }
 
@@ -178,6 +200,34 @@
     color: white;
 }
 
+
+
+
+.select-style {
+  display: inline-block;
+    border: 1px solid #ccc;
+    width: 15em;
+    border-radius: 3px;
+    overflow: hidden;
+    background: #fafafa;
+
+}
+
+.select-style select {
+    padding: 5px 8px;
+    width: 130%;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    background-image: none;
+    -webkit-appearance: none;
+    font-size: 1.3em;
+    font-family: 'Sarala', sans-serif;
+}
+
+.select-style select:focus {
+    outline: none;
+}
 
  //*****************************VIDEO SHHOW***************************************//
 
@@ -316,8 +366,8 @@
  html,
  body {
    height: 100%;
-   width: 100vw;
-   max-width: 100vw;
+   width: 99vw;
+   max-width: 99vw;
    margin: 0;
  }
 

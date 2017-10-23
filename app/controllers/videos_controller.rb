@@ -1,8 +1,19 @@
 class VideosController < ApplicationController
   before_action :set_video, only: [:show, :edit, :update, :destroy]
 
-  def manage_genre
 
+  def search
+    @search=params[:search]
+    if params[:type]==nil || params[:type]=='movie'
+      @type='movie'
+      @videos=Video.where("title LIKE ? AND production_type LIKE ?","%#{@search}%","movie")
+    else
+      @type='series'
+      @videos=Series.where("title LIKE ?","%#{@search}%")
+    end
+  end
+
+  def manage_genre
     @genre=Genre.where("name LIKE ?",params[:genre].humanize.downcase)
     @genre=@genre.last
     if params[:movie]=="true"

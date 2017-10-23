@@ -1,0 +1,258 @@
+<h1 id="search_header">Searching for <%=@search%></h1>
+<form id='types'>
+  <%= radio_button_tag 'type', "movie", @type == "movie" ? true : false %>
+  <%=label_tag 'type_'+"movie", "movie"%>
+
+  <%= radio_button_tag 'type', "series", @type == "series" ? true : false %>
+  <%=label_tag 'type_'+"series", "series"%>
+
+  <%= radio_button_tag 'type', "other", @type == "other" ? true : false %>
+  <%=label_tag 'type_'+"other", "other"%>
+</form>
+
+<% if @type == "series"%>
+<h1>Listing Series</h1>
+  <%@counter=1%>
+  <% @videos.each do |series| %>
+    <%@search = Tmdb::Search.new %>
+    <%@search.resource('tv') %>
+    <%@search.query(series.title) %>
+    <%@tv_series_id=@search.fetch[0]["id"] %>
+    <%@pics = Tmdb::TV.images(@tv_series_id) %>
+    <% @pics['backdrops'][1]["file_path"] %>
+    <%= image_tag("http://image.tmdb.org/t/p/w780/#{@pics['backdrops'][1]["file_path"]}", :class => "#{series.title}", :id=>@counter)%>
+    <%@counter+=1%>
+  <% end %>
+
+
+
+  <script>
+  function hasClass(elem, className) {
+      return elem.className.split(' ').indexOf(className) > -1;
+  }
+
+
+
+  $("img").click(function(){
+    $("#dropdown").remove();
+    if ($(this).attr("id")%2 == 0) {
+      $(this).after("<div id='dropdown'><h1>"+$(this).attr('class')+"</h1></div>");
+    } else {
+      $(this).next().after("<div id='dropdown'><h1>"+$(this).attr('class')+"</h1></div>");
+    }
+
+    var classs=$(this).attr('class')
+    $.ajax({
+      type: "POST",
+      url: "/get_videos",
+      dataType:"json",
+      data: {"title":$(this).attr('class')},
+      success:function(data) {
+        var total_seasons=data["total_seasons"];
+        var season=data["season"];
+        var series=data["series"]
+        var videos=data["videos"]
+        var amount=videos.length
+        $( "<h2>"+data["series"]["desc"]+"</h2>" ).appendTo( "#dropdown" );
+        $("<h4>"+amount+" episodes<br>Season: </h4>").appendTo( "#dropdown" );
+        var s = $("<select id='season_select' class='"+classs+" seaon_select' />");
+        s.appendTo('#dropdown');
+
+
+        $( "<div class='owl-carousel'></div>" ).appendTo( "#dropdown" );
+        for(i=0;i<amount;i++){
+          if (videos[i]["desc"].length>300) {
+            var desc= videos[i]["desc"].substring(0, 300)+"...";
+          } else {
+            var desc= videos[i]["desc"];
+          };
+          if (videos[i]["total_time"] != null) {
+            var remaining=(videos[i]["left_off"]/videos[i]["total_time"])*100
+          } else {
+            var remaining=0
+          }
+          // VIDEO DIV
+          $("<div class='video_divs'><a href='/videos/"+videos[i]["id"]+"'> <img src="+videos[i]["poster"]+
+          "  /> </a> <p class='video_title'>"+videos[i]["title"]+
+          "</p><p><div class='meter'><span style='width: "+remaining+"%'></span></div></p>  <p class='video_desc'>"+desc+"</h3></div>").appendTo( ".owl-carousel" );
+
+
+        }
+        $(".owl-carousel").owlCarousel({
+          items : 5,
+          margin: 20,
+          nav:true
+        });
+        $("p:contains("+data["last_watched"]+")").parent().css({"color":"black","background-color":"#F2E980"})
+        for(var val in total_seasons) {
+            $('<option />', {value: total_seasons[val], text: total_seasons[val]}).appendTo(s);
+        }
+        $("#season_select").val(season);
+      },
+      error:function(data) {
+        console.log("bad");
+        console.log(data);
+        alert("Error Occurred! Please make sure there is a user using the Email entered.")
+        return false;
+      }
+    });
+  });
+
+  document.addEventListener('change', function (e) {
+      if (hasClass(e.target, 'seaon_select')) {
+                var name = $('#season_select').attr('class').slice(0, -13)
+                var season_number=$( "#season_select option:selected" ).text()
+              //alert($(this).val());
+              // RESENDS AJAX REQUEST WHEN CHANGING SEASON NUMBER*****************************
+                $(".owl-carousel").remove();
+                $('h2').remove();
+                $('h4').remove();
+                $('#season_select').remove();
+                var classs=name;
+                $.ajax({
+                  type: "POST",
+                  url: "/get_videos",
+                  dataType:"json",
+                  data: {"title":name,"season":season_number},
+                  success:function(data) {
+                    var total_seasons=data["total_seasons"];
+                    var season=data["season"];
+                    var series=data["series"];
+                    var videos=data["videos"];
+                    var amount=videos.length;
+                    $( "<h2>"+data["series"]["desc"]+"</h2>" ).appendTo( "#dropdown" );
+                    $("<h4>"+amount+" episodes<br>Season: </h4>").appendTo( "#dropdown" );
+                    var s = $("<select id='season_select' class='"+classs+" seaon_select' />");
+                    s.appendTo('#dropdown');
+                    $( "<div class='owl-carousel'></div>" ).appendTo( "#dropdown" );
+                    for(i=0;i<amount;i++){
+                      if (videos[i]["desc"].length>300) {
+                        var desc= videos[i]["desc"].substring(0, 300)+"...";
+                      } else {
+                        var desc= videos[i]["desc"];
+                      };
+                      if (videos[i]["total_time"] != null) {
+                        var remaining=(videos[i]["left_off"]/videos[i]["total_time"])*100
+                      } else {
+                        var remaining=0
+                      }
+                      // VIDEO DIV
+                      $("<div class='video_divs'><a href='/videos/"+videos[i]["id"]+"'> <img src="+videos[i]["poster"]+
+                      "  /> </a> <p class='video_title'>"+videos[i]["title"]+
+                      "</p><p><div class='meter'><span style='width: "+remaining+"%'></span></div></p>  <p class='video_desc'>"+desc+"</h3></div>").appendTo( ".owl-carousel" );
+
+                    }
+                    $(".owl-carousel").owlCarousel({
+                      items : 5,
+                      margin: 20,
+                      nav:true
+                    });
+                    $("p:contains("+data["last_watched"]+")").parent().css({"color":"black","background-color":"#F2E980"})
+                    for(var val in total_seasons) {
+                        $('<option />', {value: total_seasons[val], text: total_seasons[val]}).appendTo(s);
+                    }
+                    $("#season_select").val(season);
+                  },
+                  error:function(data) {
+                    console.log("bad");
+                    console.log(data);
+                    alert("Error Occurred! Please make sure there is a user using the Email entered.")
+                    return false;
+                  }
+                });
+      }
+  }, false);
+
+  </script>
+
+
+
+
+
+<%elsif @type == "movie" %>
+  <h1>Listing Movies</h1>
+  <%@counter=1%>
+  <div id='movies_index_wrapper'>
+      <% @videos.each do |video| %>
+          <% if @counter == 1%>
+            <div>
+          <%end%>
+          <%= image_tag(video.poster, :class => "#{video.title}", :id=>@counter)%>
+          <%@counter+=1%>
+          <% if @counter == 5 %>
+            </div>
+            <%@counter=1%>
+          <%end%>
+      <% end %>
+  </div>
+
+
+
+  <script>
+
+
+
+
+  $("img").click(function(){
+    $("#dropdown").remove();
+
+
+      $(this).parent().after("<div id='dropdown'><h1>"+$(this).attr('class')+"</h1></div>");
+
+
+    var classs=$(this).attr('class')
+    $.ajax({
+      type: "POST",
+      url: "/get_movie",
+      dataType:"json",
+      data: {"title":$(this).attr('class')},
+      success:function(data) {
+        console.log(data);
+
+
+  //        if (videos[i]["desc"].length>300) {
+  //          var desc= videos[i]["desc"].substring(0, 300)+"...";
+  //        } else {
+  //          var desc= videos[i]["desc"];
+  //        };
+  //        if (videos[i]["total_time"] != null) {
+  //          var remaining=(videos[i]["left_off"]/videos[i]["total_time"])*100
+  //        } else {
+  //          var remaining=0
+  //        }
+          // VIDEO DIV
+          $("<div class='movie_preview_div'><a href='/videos/"+data["id"]+"'> <img src='"+data["img"]+
+         "'></a><p><div class='meter'><span style='width: "+data["remaining"]+"%'></span></div></p>  <p class='movie_desc'>"+data["desc"]+"</h3></div>").appendTo( "#dropdown" );
+
+
+      },
+      error:function(data) {
+        console.log("bad");
+        console.log(data);
+        alert("Error Occurred! Please make sure there is a user using the Email entered.")
+        return false;
+      }
+    });
+
+
+  })
+
+    </script>
+<%end%>
+
+
+
+
+<script>
+$(function(){
+  $('input[type="radio"]').click(function(){
+    if ($(this).is(':checked'))
+    {
+      var type= $("#types input[type='radio']:checked").val();
+      var searched =$("#search_header").text().substring(14);
+      var current=window.location.href
+      $(location).attr('href',"/search?utf8=✓&search="+searched+"&type="+type);
+    }
+  });
+});
+</script>

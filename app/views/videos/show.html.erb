@@ -79,21 +79,23 @@
 <p><%= @video.desc %></p>
 
 <div class='genre_form'>
-  <select>
-    <option disabled selected value> -- select an option -- </option>
-    <% Genre.all.each do |g| %>
-      <option value=<%=g.name.parameterize.underscore.downcase%>><%=g.name%></option>
-    <%end%>
-  </select>
+  <div class="select-style">
+    <select>
+      <option disabled selected value> -- select an option -- </option>
+      <% Genre.all.each do |g| %>
+        <option value=<%=g.name.parameterize.underscore.downcase%>><%=g.name%></option>
+      <%end%>
+    </select>
+  </div>
   <button class="button button1">Add/Remove Genre</button>
 </div>
 <%end%>
 
 
    <p>
-     <strong>Genres:</strong>
+     <strong>Genres:</strong><br>
      <% @video.genres.each do |g| %>
-       <%g.name%><br>
+       <%=g.name%><br>
      <%end%>
    </p>
 
