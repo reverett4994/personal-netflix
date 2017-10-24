@@ -18,12 +18,12 @@
       <li> <%= link_to "Genres", "/genres"%></li>
       <li> <%= link_to "Series", "/series"%></li>
       <li> <%= link_to "Movies", "/movies"%></li>
-      <li> <%= link_to "Videos", "/videos"%></li>
       <li style="float:right"> <%= link_to "Sign Out", destroy_user_session_path, :method => :delete %></li>
-      <%= form_tag('/search', :method => :get) do -%>
-        <div><%= text_field_tag 'search' %></div>
-      <% end -%>
+
     </ul>
+    <%= form_tag('/search', :method => :get) do -%>
+      <div><%= text_field_tag 'search' %></div>
+    <% end -%>
   <%else%>
     <li><%= link_to 'Sign In!', new_user_session_path %></li>
   <%end%>
@@ -34,4 +34,44 @@
 <%= yield %>
 
 </body>
+
+<script>
+if ($(window).width() < 795) {
+  $("#search").focus(function(){
+      $("#header").css("height", "100px");
+      $("#header ul").css("display", "block");
+      $("#header form").css("display", "inline-block");
+      $("#header input").css("margin-top", "-2.2em");
+      $("#header form").css("float", "right");
+  });
+
+  $("div").focusout(function(){
+    $("#header").removeAttr('style');
+    $("#header ul").removeAttr('style');
+    $("#header form").removeAttr('style');
+    $("#header input").removeAttr('style');
+
+});
+}
+
+$(window).resize(function() {
+  if ($(window).width() < 795) {
+    $("#search").focus(function(){
+        $("#header").css("height", "100px");
+        $("#header ul").css("display", "block");
+        $("#header form").css("display", "inline-block");
+        $("#header input").css("margin-top", "-2.2em");
+        $("#header form").css("float", "right");
+    });
+
+    $("div").focusout(function(){
+      $("#header").removeAttr('style');
+      $("#header ul").removeAttr('style');
+      $("#header form").removeAttr('style');
+      $("#header input").removeAttr('style');
+
+  });
+  }
+});
+</script>
 </html>

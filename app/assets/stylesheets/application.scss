@@ -57,6 +57,7 @@
       background-color: #7EA3CF;
       color: white;
       height: 100%;
+      display: inline;
   }
 
   li {
@@ -80,16 +81,45 @@
   .active {
       background-color: #4CAF50;
   }
+
+
+  @media only screen and (max-width: 777px) {
+    li a {
+        padding: 1.8em 10px;
+        font-size: .7em;
+    }
+  }
+  @media only screen and (max-width: 425px) {
+    height: 100px;
+    ul{
+      display: block;
+    }
+    form{
+      display: inline-block;
+      float: right;
+    }
+    input{
+      margin-top: -3.5em;
+    }
+  }
+
+  @media only screen and (max-width: 375px) {
+    li a {
+        padding: 1.4em 7px;
+        font-size: .6em;
+    }
+
+  }
 }
 
 input[type='text']{
   background: #dae4f1 url("search.png") no-repeat 99% 50%;
   background-size: 110%;
   font-size: 1em;
-  padding: .3em;
+  padding: .8em;
   display: inline-block;
   float: right;
-  margin-top: .9em;
+  margin-top: 1.1em;
   margin-right: .2em;
   border: none;
   width: 1em;
@@ -99,11 +129,16 @@ input[type='text']{
   border-radius: 100%
 }
 input[type='text']:focus {
-   width: 10em;
+   width: 15em;
+   height: auto;
+   font-size: 1.5em;
+   margin-top: .8em;
    border-radius: 5%;
    background: #fafafa url("search.png") no-repeat 99% 50%;
    background-size: 10%;
+   padding: .3em;
 }
+
 
  //*****************************HEADER***************************************//
 
@@ -260,6 +295,14 @@ input[type='text']:focus {
     line-height: 1.5em;
     max-width: 55%;
   }
+  @media only screen and (max-width: 600px) {
+    img{
+      width: 95% !important;
+    }
+    p{
+      max-width: 95%;
+    }
+  }
 }
 
  //*****************************MOVIES INDEX***************************************//
@@ -324,6 +367,9 @@ input[type='text']:focus {
     line-height: 1em;
   }
   @media only screen and (max-width: 700px) {
+    h1{
+      line-height: 1em;
+    }
     h2 {
         font-size: 1.2em;
     }
