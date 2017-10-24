@@ -160,7 +160,23 @@ document.addEventListener('change', function (e) {
                   $(".owl-carousel").owlCarousel({
                     items : 5,
                     margin: 20,
-                    nav:true
+                    nav:true,
+                    responsiveClass:true,
+                    responsive:{
+                        0:{
+                            items:1,
+                            nav:true
+                        },
+                        600:{
+                            items:3,
+                            nav:false
+                        },
+                        1000:{
+                            items:5,
+                            nav:true,
+                            loop:false
+                        }
+                    }
                   });
                   $("p:contains("+data["last_watched"]+")").parent().css({"color":"black","background-color":"#F2E980"})
                   for(var val in total_seasons) {
