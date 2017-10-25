@@ -31,6 +31,8 @@ $("img").click(function(){
   $("#dropdown").remove();
   if ($(this).attr("id")%2 == 0) {
     $(this).after("<div id='dropdown'><h1>"+$(this).attr('class')+"</h1></div>");
+  } else if ( $(this).next('li').length == 0) {
+    $(this).after("<div id='dropdown'><h1>"+$(this).attr('class')+"</h1></div>");
   } else {
     $(this).next().after("<div id='dropdown'><h1>"+$(this).attr('class')+"</h1></div>");
   }
