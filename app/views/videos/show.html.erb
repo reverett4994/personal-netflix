@@ -48,6 +48,13 @@
     <button class="button button1">Add/Remove Genre</button>
   </div>
 
+  <p>
+    <strong>Genres:</strong><br>
+    <% @video.series.genres.each do |g| %>
+      <%=g.name%><br>
+    <%end%>
+  </p>
+
 
 <%elsif @video.production_type.downcase == 'movie'%>
 <div id='video_show_wrapper'>
@@ -89,15 +96,17 @@
   </div>
   <button class="button button1">Add/Remove Genre</button>
 </div>
+
+<p>
+  <strong>Genres:</strong><br>
+  <% @video.genres.each do |g| %>
+    <%=g.name%><br>
+  <%end%>
+</p>
 <%end%>
 
 
-   <p>
-     <strong>Genres:</strong><br>
-     <% @video.genres.each do |g| %>
-       <%=g.name%><br>
-     <%end%>
-   </p>
+
 
 
    <%= link_to 'Edit', edit_video_path(@video) %> |

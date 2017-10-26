@@ -5,6 +5,7 @@
 <div id='form_wrapper'>
   <form id='genres'>
     <div class="container">
+      <h2>Genre</h2>
       <ul class="list">
         <% @genres.each do |genre| %>
         <li class="list__item">
@@ -20,9 +21,10 @@
     </div>
   </form>
 
-
+<div id='line'></div>
   <form id='types'>
     <div class="container">
+      <h2>Type</h2>
       <ul class="list">
         <%= radio_button_tag 'type', "movie", @type == "movie" ? true : false,class:"radio-btn" %>
         <%=label_tag 'type_'+"movie", "movie",class:"label"%>
@@ -68,7 +70,7 @@
     $("#dropdown").remove();
     if ($(this).attr("id")%2 == 0) {
       $(this).after("<div id='dropdown'><h1>"+$(this).attr('class')+"</h1></div>");
-    } else if ( $(this).next('li').length == 0) {
+    } else if ( $(this).next().length == 0) {
       $(this).after("<div id='dropdown'><h1>"+$(this).attr('class')+"</h1></div>");
     } else {
       $(this).next().after("<div id='dropdown'><h1>"+$(this).attr('class')+"</h1></div>");

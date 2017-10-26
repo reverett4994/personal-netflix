@@ -90,6 +90,10 @@ class VideosController < ApplicationController
        @episode_title= @episode["name"]
        @episode_desc= @episode["overview"]
        @episode_date= @episode["air_date"]
+       @genres=[]
+       @video.series.genres.each do |g|
+         @genres.push(g.name.parameterize.underscore)
+       end
        @pics = Tmdb::Episode.images(@tv_series_id, @video.season, @video.episode)
        if @pics["stills"][1]==nil
          @poster= "http://image.tmdb.org/t/p/w780/#{ @pics["stills"][0]["file_path"]}"
@@ -126,11 +130,12 @@ class VideosController < ApplicationController
        @poster= "http://image.tmdb.org/t/p/w780/#{ @movie["backdrop_path"]}"
        gon.genre_id = @video.id
        gon.movie=true
+       @genres=[]
+       @video.genres.each do |g|
+         @genres.push(g.name.parameterize.underscore)
+       end
      end
-     @genres=[]
-     @video.genres.each do |g|
-       @genres.push(g.name.parameterize.underscore)
-     end
+
      gon.genres=@genres
      gon.id = @video.id
      if @video.left_off != nil

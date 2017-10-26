@@ -1,0 +1,65 @@
+<%= form_for(@video)do |f| %>
+  <% if @video.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@video.errors.count, "error") %> prohibited this video from being saved:</h2>
+
+      <ul>
+      <% @video.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%= link_to new_contents_path do %>
+     Upload  <%=image_tag 'upload.png'%>
+<% end %>
+  <div class="field">
+      <%= f.radio_button(:production_type, "Movie") %>
+      <%= f.label(:production_type_movie, "Movie") %>
+      <%= f.radio_button(:production_type, "TV",class:'tv_type') %>
+      <%= f.label(:production_type_tv, "TV") %>
+      <%= f.radio_button(:production_type, "Other") %>
+      <%= f.label(:production_type_other, "Other") %>
+  </div>
+  <div class="field">
+    <%= f.label :title %><br>
+    <%= f.text_field :title %>
+  </div>
+  <div class="field series">
+    <%= f.label :series_id %><br>
+    <%= f.collection_radio_buttons(:series_id, Series.all, :id, :title) %>
+  </div>
+  <div class="field">
+    <%= f.label :season %><br>
+    <%= f.number_field :season, disabled: true %>
+  </div>
+  <div class="field">
+    <%= f.label :episode %><br>
+    <%= f.number_field :episode, disabled: true %>
+  </div>
+
+  <%= f.hidden_field :key %>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+
+<script>
+  $(".series input").prop("disabled",true);
+
+
+  $(function(){
+    $('input[type=radio]').click(function(){
+      if ($('.tv_type').is(':checked')){
+        $(".series input").prop("disabled",false);
+        $("input[type=number]").prop("disabled",false);
+      }
+      if ($('.tv_type').is(':not(:checked)')){
+        $(".series input").prop("disabled",true);
+        $("input[type=number]").prop("disabled",true);
+      }
+    });
+  });
+
+</script>

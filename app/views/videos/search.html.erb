@@ -1,14 +1,21 @@
 <h1 id="search_header">Searching for <%=@search%></h1>
-<form id='types'>
-  <%= radio_button_tag 'type', "movie", @type == "movie" ? true : false %>
-  <%=label_tag 'type_'+"movie", "movie"%>
+<div id="search_radio">
+  <form id='types'>
+    <div class="container">
+      <h2>Type</h2>
+      <ul class="list">
+        <%= radio_button_tag 'type', "movie", @type == "movie" ? true : false,class:"radio-btn" %>
+        <%=label_tag 'type_'+"movie", "movie",class:"label"%>
 
-  <%= radio_button_tag 'type', "series", @type == "series" ? true : false %>
-  <%=label_tag 'type_'+"series", "series"%>
+        <%= radio_button_tag 'type', "series", @type == "series" ? true : false,class:"radio-btn" %>
+        <%=label_tag 'type_'+"series", "series",class:"label"%>
 
-  <%= radio_button_tag 'type', "other", @type == "other" ? true : false %>
-  <%=label_tag 'type_'+"other", "other"%>
-</form>
+        <%= radio_button_tag 'type', "other", @type == "other" ? true : false,class:"radio-btn" %>
+        <%=label_tag 'type_'+"other", "other",class:"label"%>
+      </ul>
+    </div>
+  </form>
+</div>
 
 <% if @type == "series"%>
 <h1>Listing Series</h1>
@@ -35,11 +42,11 @@
 
 
   $("img").click(function(){
-    console.log($(this).next('li').length);
+    console.log($(this).next().length);
     $("#dropdown").remove();
     if ($(this).attr("id")%2 == 0 ) {
       $(this).after("<div id='dropdown'><h1>"+$(this).attr('class')+"</h1></div>");
-    } else if ( $(this).next('li').length == 0) {
+    } else if ( $(this).next().length == 0) {
       $(this).after("<div id='dropdown'><h1>"+$(this).attr('class')+"</h1></div>");
     } else {
       $(this).next().after("<div id='dropdown'><h1>"+$(this).attr('class')+"</h1></div>");
