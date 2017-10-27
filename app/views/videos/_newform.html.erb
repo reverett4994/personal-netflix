@@ -37,6 +37,7 @@
     <%= f.label :episode %><br>
     <%= f.number_field :episode, disabled: true %>
   </div>
+  <%= hidden_field_tag :desc%>
 
   <%= f.hidden_field :key %>
   <div class="actions">
@@ -46,8 +47,26 @@
 
 
 <script>
+function getParameterByName( name ){
+  name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+  var regexS = "[\\?&]"+name+"=([^&#]*)";
+  var regex = new RegExp( regexS );
+  var results = regex.exec( window.location.href );
+  if( results == null )
+    return "";
+  else
+    return decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+  $(".field").hide();
+  $("input[type=submit]").hide();
+
   $(".series input").prop("disabled",true);
 
+  if (getParameterByName('bucket') != '') {
+    $(".field").show();
+    $("input[type=submit]").show();
+  }
 
   $(function(){
     $('input[type=radio]').click(function(){

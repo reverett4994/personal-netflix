@@ -1,7 +1,6 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Listing Series</h1>
 <div id='series_wrapper'>
+  <h1>All Series</h1>
+  <h2><%= link_to 'Add Too Exsiting Series', new_video_path,:class => 'video_link' %> | <%= link_to 'Add New Series', new_series_path %></h2>
   <%@counter=1%>
   <% @series.each do |series| %>
     <%@search = Tmdb::Search.new %>
@@ -16,7 +15,6 @@
 </div>
 <br>
 
-<%= link_to 'New Series', new_series_path %>
 
 
 

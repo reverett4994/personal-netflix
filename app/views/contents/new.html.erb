@@ -1,8 +1,11 @@
 
-<%= direct_upload_form_for @uploader do |f| %>
-  <%= f.file_field :content,accept: "video/mp4,video/webm,video/ogg" %>
-  <%= f.submit "Upload Directly!",disabled: true,id:"btn" %>
-<% end %>
+<div id="file_upload_div">
+  <h1>Click below to upload your video<br><br>(upload time may vary depending on the file size)</h1>
+  <%= direct_upload_form_for @uploader do |f| %>
+    <%= f.file_field :content,accept: "video/mp4,video/webm,video/ogg" %>
+    <%= f.submit "Upload Directly!",disabled: true,id:"btn" %>
+  <% end %>
+</div>
 
 <div class="loader"></div>
 <div class="loader_text">Uploading Video<br><br>May take awhile if a large file</div>
@@ -21,6 +24,7 @@ $("#content_uploader_content").change(function () {
 $("#btn").click(function(){
   console.log("click");
     $("form").hide()
+    $("h1").hide()
     $(".loader").show()
     $(".loader_text").show()
 });
