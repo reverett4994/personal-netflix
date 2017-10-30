@@ -4,7 +4,7 @@ class GenresController < ApplicationController
   # GET /genres
   # GET /genres.json
   def index
-    @genres = Genre.all
+    @genres = current_user.genres.all
     if params[:genre] && params[:type]
       @genre= params[:genre]
       @type= params[:type]
@@ -25,6 +25,7 @@ class GenresController < ApplicationController
 
   # GET /genres/new
   def new
+    @genres = current_user.genres.all
     @genre = current_user.genres.build
   end
 
@@ -39,7 +40,7 @@ class GenresController < ApplicationController
 
     respond_to do |format|
       if @genre.save
-        format.html { redirect_to @genre, notice: 'Genre was successfully created.' }
+        format.html { redirect_to "/genres", notice: 'Genre was successfully created.' }
         format.json { render :show, status: :created, location: @genre }
       else
         format.html { render :new }
@@ -67,7 +68,7 @@ class GenresController < ApplicationController
   def destroy
     @genre.destroy
     respond_to do |format|
-      format.html { redirect_to genres_url, notice: 'Genre was successfully destroyed.' }
+      format.html { redirect_to "/genres/new", notice: 'Genre was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

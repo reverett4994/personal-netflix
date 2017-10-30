@@ -16,14 +16,27 @@
     <%= f.text_field :name %>
   </div>
   <div class="field">
-    <%= f.label :series %><br>
-    <%= f.collection_check_boxes(:series_ids, Series.all, :id, :title) %>
+    <% f.label :series %><br>
+    <% f.collection_check_boxes(:series_ids, Series.all, :id, :title) %>
   </div>
   <div class="field">
-    <%= f.label :videos, "Movies" %><br>
-    <%= f.collection_check_boxes(:video_ids, Video.where("production_type LIKE ?",'movie'), :id, :title) %>
+    <% f.label :videos, "Movies" %><br>
+    <% f.collection_check_boxes(:video_ids, Video.where("production_type LIKE ?",'movie'), :id, :title) %>
   </div>
   <div class="actions">
     <%= f.submit %>
   </div>
+
+
 <% end %>
+
+
+<div class='delete_genres'>
+<h1>Delete Genres</h1>
+  <% @genres.each do |genre| %>
+  <div class="">
+    <%= truncate(genre.name,:length => 15) %>
+    <%= link_to 'Delete', genre, method: :delete, data: { confirm: 'Are you sure?' } %>
+  </div>
+  <%end%>
+</div>

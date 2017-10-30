@@ -10,7 +10,7 @@
         <% @genres.each do |genre| %>
         <li class="list__item">
           <%= radio_button_tag 'genre', "#{genre.name}", @genre && @genre.name == genre.name ? true : false,class:"radio-btn"%>
-          <%=label_tag 'genre_'+genre.name, genre.name,class:"label"%>
+          <%=label_tag 'genre_'+genre.name, truncate(genre.name,:length => 10),class:"label"%>
           <% genre.name %>
           <% link_to 'Show', genre %>
           <% link_to 'Edit', edit_genre_path(genre) %>
@@ -38,7 +38,7 @@
     </div>
   </form>
 </div>
-<%= link_to 'New Genre', new_genre_path %>
+<%= link_to 'Mange Genres', new_genre_path,class:"mange_genres" %>
 
 
 

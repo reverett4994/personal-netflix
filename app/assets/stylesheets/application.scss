@@ -705,8 +705,98 @@ body {
 
 
 
+ //***************************** NEW GENRE PAGE*******************//
+
+ .new_genre{
+   width: 50%;
+   margin-left: auto;
+   margin-right: auto;
+   input[type=text]{
+     width: 100%;
+     padding: 5px 10px;
+     font-size: 1.5em;
+   }
+   input[type=submit] {
+    background-color: #7EA3CF;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: auto;
+}
+ }
+
+.delete_genres{
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 1.4em;
+  div{
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: .7em;
+    padding-bottom: 5px;
+    border-bottom: .5px solid black;
+    a{
+      text-decoration: underline;
+      color: #333;
+    }
+    a:visited{
+      color: #333;
+    }
+    a{
+      float: right;
+
+    }
+  }
+}
+@media only screen and (max-width: 950px) {
+  .delete_genres{
+    div{
+      width: 90%;
+      font-size: .8em;
+    }
+  }
+}
+@media only screen and (max-width: 750px) {
+  .delete_genres{
+    width: 100%;
+    div{
+      width: 90%;
+      font-size: .8em;
+    }
+  }
+  .new_genre{
+    width: 100%;
+  }
+}
+ //***************************** NEW GENRE PAGE*******************//
 
 
+.mange_genres{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  font-size: 1.5em;
+  margin: 20px;
+  font-weight: bold;
+}
+
+.mange_genres{
+  text-decoration: underline;
+  color: #333;
+}
+.mange_genres:visited{
+  color: #333;
+}
 
 
 //*****************************RADIO BUTTONS*******************//
@@ -722,22 +812,25 @@ body {
   margin-left: auto;
   margin-right: auto;
   display: flex;
+  padding: 10PX;
 }
 @media only screen and (max-width: 800px) {
   #form_wrapper{
-    min-width: 100%;
-    max-width: 100%;
+    min-width: 95VW;
+    max-width: 95VW;
   }
 }
 #genres{
   display: inline-block;
   margin-right: 15%;
+  max-width: 25%;
 }
 
 #types{
   margin-left: 15%;
   vertical-align:top;
   display: inline-block;
+  max-width: 25%;
 }
 #genres h2, #types h2{
   margin-left: 75px;
@@ -746,14 +839,54 @@ body {
 }
 
 #line{
-
   width: 5px;
   display: inline-block;
   border-left: 1px solid #4d4d4d;
-
 }
 
-
+@media only screen and (max-width: 1000px) {
+  #line{
+    display: none;
+  }
+}
+@media only screen and (max-width: 768px) {
+  #genres{
+    max-width: 45%;
+    margin-right: 10%;
+    margin-left: 15%;
+  }
+  #types{
+    max-width: 45%;
+    margin-left: 5%;
+  }
+}
+@media only screen and (max-width: 680px) {
+  #genres{
+    margin-left: 5%;
+  }
+  #types{
+    margin-left: 2%;
+    margin-right: 50px;
+    float: right;
+  }
+}
+@media only screen and (max-width: 600px) {
+  #genres{
+    font-size: .5em;
+    margin-left: 0;
+  }
+  #types{
+    font-size: .5em;
+  }
+}
+@media only screen and (max-width: 400px) {
+  #genres{
+    margin-left: -40px;
+  }
+  #types{
+    font-size: .5em;
+  }
+}
 $primary-color: #4d4d4d;
 $accent-color: #7EA3CF;
 
