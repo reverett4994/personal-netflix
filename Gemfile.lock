@@ -237,6 +237,7 @@ GEM
       json
       multi_json
       request_store (>= 1.0)
+    high_voltage (3.0.0)
     httparty (0.15.6)
       multi_xml (>= 0.5.2)
     i18n (0.8.6)
@@ -385,6 +386,7 @@ DEPENDENCIES
   dropzonejs-rails
   fog-aws
   gon
+  high_voltage (~> 3.0.0)
   jbuilder (~> 2.0)
   jquery-rails
   mysql2 (>= 0.3.13, < 0.5)

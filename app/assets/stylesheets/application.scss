@@ -24,6 +24,7 @@
 
  */
 @import 'owlcarousel2/owl.carousel';
+
 html,
 body {
   height: 100%;
@@ -169,6 +170,43 @@ body {
 
 
  //*****************************HEADER***************************************//
+
+
+ //*****************************HOME***************************************//
+
+#home_wrapper{
+  overflow-x: hidden;
+  h1{
+    text-align: center;
+    font-size: 2.5em;
+    width: 98vw;
+    max-width: 98vw;
+    color: #F2E980;
+    background-color: #7EA3CF;
+    padding: 15px;
+    margin: 0;
+  }
+  h2{
+    text-align: center;
+    font-size: 1.5em;
+    width: 91vw;
+    max-width: 91vw;
+    margin-left: auto;
+    margin-right: auto;
+    color: #7EA3CF;
+    background-color: #F2E980;
+    padding: 15px 80px;
+    margin: 0;
+  }
+  img{
+    height: 600px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+}
+
+
+ //*****************************HOME***************************************//
 
 
  //*****************************UPLOAD PAGE***************************************//

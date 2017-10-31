@@ -19,13 +19,14 @@
       <li> <%= link_to "Series", "/series"%></li>
       <li> <%= link_to "Movies", "/movies"%></li>
       <li style="float:right"> <%= link_to "Sign Out", destroy_user_session_path, :method => :delete %></li>
-
     </ul>
     <%= form_tag('/search', :method => :get) do -%>
       <div><%= text_field_tag 'search' %></div>
     <% end -%>
   <%else%>
-    <li><%= link_to 'Sign In!', new_user_session_path %></li>
+    <ul>
+      <li><%= link_to 'Sign In!', new_user_session_path %></li>
+    </ul>
   <%end%>
 </div>
   <!-- notcie and alert from devise gem -->
