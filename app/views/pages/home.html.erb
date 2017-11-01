@@ -1,6 +1,5 @@
 <div id="home_wrapper">
-  <h1>Welcome to Cloud Cinema !</h1>
-  <div class="owl-carousel owl-theme">
+  <div id= 'frist_owl' class="owl-carousel owl-theme">
       <img src='batman.jpg'>
       <img src='park.jpg'>
       <img src='avatar.jpg'>
@@ -13,45 +12,92 @@
   </div>
 
   <h1>Your Movies Anywhere, Anytime!</h1>
-  <h2>Upload your own favorite movies to have them categorized and avalible all in one place. Have access from any device with a internet conection and browser. Also saves where you left off and when so never forget your place in a movie again!</h2>
+  <h2>Upload your own favorite movies to have them categorized and available all in one place. Have access from any device with a internet conection and browser. Also saves where you left off and when, so never forget your place in a movie again!</h2>
+  <div id="icon_wrapper">
+    <div class='icon'>
+      <div class="circle"><img src='cloud.png'></div>
+      <h3>Storage is all handled by Amazon S3 so never fear losing coutless movies and videos or worry about filling your preciouse harddrive space.</h3>
+    </div>
 
-  <div class="owl-carousel owl-theme">
-      <img src='bad.jpg'>
-      <img src='family_guy.jpg'>
-      <img src='bob.jpg'>
-      <img src='ahs.jpg'>
-      <img src='sopranos.jpg'>
-      <img src='stranger_things.jpg'>
+    <div class='icon'>
+      <div class="circle"><img src='bookshelf.png'></div>
+      <h3>Since there your videos customize your library to your liking anytime you want. Also make your own genres and sort your movies and tv shows however you please!</h3>
+    </div>
   </div>
 
-  <h1>TV series sorted by season and descriptons for every episode!</h1>
+    <h1>TV series sorted by season and descriptons for every episode!</h1>
 
-  <h2>Words and some more words. Even some other words! WOW.Words and some more words. Even some other words! WOW.Words and some more words. Even some other words! WOW.Words and some more words. Even some other words! WOW.Words and some more words. Even some other words! WOW</h2>
+    <h2>Store all your episodes from any TV series to have them available from anywhere. Keep track of what episodes you watched and didn't and always remember where you where in a series no matter how long its been!</h2>
 
+  <div id='second_owl' class="owl-carousel owl-theme">
+    <div>  <img src='bad.jpg'></div>
+    <div>  <img src='family_guy.jpg'></div>
+    <div>  <img src='bob.jpg'></div>
+    <div>  <img src='ahs.jpg'></div>
+    <div>  <img src='sopranos.jpg'></div>
+    <div>  <img src='stranger_things.jpg'></div>
+  </div>
+
+
+  <div id='home_footer'>
+    <div class="circle"><img src='popcorn.png'></div>
+    <h3>Try it out now, create an account in seconds!</h3>
+    <p>
+       <a href="/users/sign_in">Sign in</a> |
+       <a href="/users/sign_up">Sign up</a>
+     </p>
+  </div>
 </div>
 
 
 <script>
-var owl = $('.owl-carousel');
-$('.owl-carousel').owlCarousel({
+$('#frist_owl').owlCarousel({
     loop:true,
-    margin:10,
+    margin:5,
     dots:false,
-    autoWidth:true,
     autoplay:true,
     autoplayTimeout:2500,
+    responsiveClass:true,
     responsive:{
         0:{
             items:1
         },
         600:{
-            items:3
+            items:2
         },
         1000:{
+            items:3
+        },
+        1300:{
+            items:4
+        },
+        1500:{
             items:5
         }
     }
 });
+
+$('#second_owl').owlCarousel({
+    loop:true,
+    margin:5,
+    dots:false,
+    autoplay:true,
+    autoplayTimeout:2500,
+    responsiveClass:true,
+    responsive:{
+        0:{
+            items:1
+        },
+        850:{
+            items:2
+        },
+        1500:{
+            items:3
+        }
+    }
+});
+
+
 
 
 </script>
