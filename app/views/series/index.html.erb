@@ -12,9 +12,10 @@
     <%= image_tag("http://image.tmdb.org/t/p/w780/#{@pics['backdrops'][1]["file_path"]}", :class => "#{series.title}", :id=>@counter)%>
     <%@counter+=1%>
   <% end %>
-</div>
-<br>
 
+</div>
+<h1>Thats all your series!</h1>
+<h2 style="text-align:center;"><%= link_to 'Add More', new_series_path,:class => 'video_link' %></h2>
 
 
 
@@ -106,9 +107,7 @@ $("img").click(function(){
       $("#season_select").val(season);
     },
     error:function(data) {
-      console.log("bad");
-      console.log(data);
-      alert("Error Occurred! Please make sure there is a user using the Email entered.")
+      $( "<h2>No Episodes Added Yet <br>  <a href='/videos/new'>Add Some Now!</a> </h2>" ).appendTo( "#dropdown" );
       return false;
     }
   });
@@ -186,9 +185,7 @@ document.addEventListener('change', function (e) {
                   $("#season_select").val(season);
                 },
                 error:function(data) {
-                  console.log("bad");
-                  console.log(data);
-                  alert("Error Occurred! Please make sure there is a user using the Email entered.")
+                  $( "<h2>No Episodes Added Yet <br>  <a href='/videos/new'>Add Some Now!</a> </h2>" ).appendTo( "#dropdown" );
                   return false;
                 }
               });

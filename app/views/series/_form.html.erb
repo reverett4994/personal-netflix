@@ -1,3 +1,4 @@
+<div id="devise_wrapper">
 <%= form_for(@series) do |f| %>
   <% if @series.errors.any? %>
     <div id="error_explanation">
@@ -10,25 +11,34 @@
       </ul>
     </div>
   <% end %>
-
+  <h2>Search for series </h2>
   <div class="field">
-    <%= f.label :title %><br>
+    <label for="basics">Search</label>
+    <input id="basics" /><br>
+  </div>
+  <h2>Or put in your own info </h2>
+  <div class="field">
+    <%= f.label :title %>
     <%= f.text_field :title %>
   </div>
   <div class="field">
-    <%= f.label :desc %><br>
+    <%= f.label :desc %>
     <%= f.text_area :desc %>
   </div>
-  <div class="field">
-    <%= f.label :genre %><br>
-    <%= f.collection_check_boxes(:genre_ids, Genre.all, :id, :name) %>
+  <div class="field check rails_check">
+    <%= f.label :genre ,"Add Genre(s)" %><br>
+  <%=  f.collection_check_boxes(:genre_ids, current_user.genres.all, :id, :name) do |b| %>
+  <%=    b.label(:"data-value" => b.value) { b.check_box + b.text } %><br>
+  <%  end %><br>
   </div>
   <div class="actions">
     <%= f.submit %>
   </div>
 <% end %>
-<input id="basics" /><br>
-
+</div>
+<%if false%>
+  <% f.collection_check_boxes(:genre_ids, current_user.genres.all, :id, :name) %>
+<%end%>
 <script>
 var counter = 0
 

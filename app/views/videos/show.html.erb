@@ -41,7 +41,7 @@
   <div class='genre_form'>
     <select>
       <option disabled selected value> -- select an option -- </option>
-      <% Genre.all.each do |g| %>
+      <% current_user.genres.all.each do |g| %>
         <option value=<%=g.name.parameterize.underscore.downcase%>><%=g.name%></option>
       <%end%>
     </select>
@@ -89,7 +89,7 @@
   <div class="select-style">
     <select>
       <option disabled selected value> -- select an option -- </option>
-      <% Genre.all.each do |g| %>
+      <% current_user.genres.all.each do |g| %>
         <option value=<%=g.name.parameterize.underscore.downcase%>><%=g.name%></option>
       <%end%>
     </select>

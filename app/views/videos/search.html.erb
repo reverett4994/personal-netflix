@@ -117,9 +117,7 @@
         $("#season_select").val(season);
       },
       error:function(data) {
-        console.log("bad");
-        console.log(data);
-        alert("Error Occurred! Please make sure there is a user using the Email entered.")
+        $( "<h2>No Episodes Added Yet <br>  <a href='/videos/new'>Add Some Now!</a> </h2>" ).appendTo( "#dropdown" );
         return false;
       }
     });
@@ -197,9 +195,7 @@
                     $("#season_select").val(season);
                   },
                   error:function(data) {
-                    console.log("bad");
-                    console.log(data);
-                    alert("Error Occurred! Please make sure there is a user using the Email entered.")
+                    $( "<h2>No Episodes Added Yet <br>  <a href='/videos/new'>Add Some Now!</a> </h2>" ).appendTo( "#dropdown" );
                     return false;
                   }
                 });
