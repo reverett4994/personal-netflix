@@ -119,6 +119,7 @@ body {
     }
     input[type='text']:focus{
       margin-top: -1.9em !important;
+      max-width: 90vw !important;
     }
   }
 
@@ -331,7 +332,7 @@ body {
       width: 75%;
     }
     @media only screen and (max-width: 400px) {
-      width: 100%;
+      width: 95%;
     }
     label{
       font-size: 1.3em;
@@ -1030,10 +1031,12 @@ body {
 //*****************************RADIO BUTTONS*******************//
 #search_radio{
   text-align: center !important;
+  overflow: hidden;
   form{
     margin: 0 !important;
   }
 }
+
 #form_wrapper{
   min-width: 50%;
   max-width: 50%;
@@ -1114,6 +1117,11 @@ body {
   #types{
     font-size: .5em;
   }
+}
+.search_radio_search{
+    form{
+      float: none !important;
+    }
 }
 $primary-color: #4d4d4d;
 $accent-color: #7EA3CF;
