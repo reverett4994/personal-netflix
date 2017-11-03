@@ -21,16 +21,20 @@
 <h1>Listing Series</h1>
 <div id='series_wrapper'>
   <%@counter=1%>
-  <% @videos.each do |series| %>
-    <%@search = Tmdb::Search.new %>
-    <%@search.resource('tv') %>
-    <%@search.query(series.title) %>
-    <%@tv_series_id=@search.fetch[0]["id"] %>
-    <%@pics = Tmdb::TV.images(@tv_series_id) %>
-    <% @pics['backdrops'][1]["file_path"] %>
-    <%= image_tag("http://image.tmdb.org/t/p/w780/#{@pics['backdrops'][1]["file_path"]}", :class => "#{series.title}", :id=>@counter)%>
-    <%@counter+=1%>
-  <% end %>
+  <% if @videos.count == 0 %>
+      <h1>No Videos matching your request</h1>
+  <%else%>
+    <% @videos.each do |series| %>
+      <%@search = Tmdb::Search.new %>
+      <%@search.resource('tv') %>
+      <%@search.query(series.title) %>
+      <%@tv_series_id=@search.fetch[0]["id"] %>
+      <%@pics = Tmdb::TV.images(@tv_series_id) %>
+      <% @pics['backdrops'][1]["file_path"] %>
+      <%= image_tag("http://image.tmdb.org/t/p/w780/#{@pics['backdrops'][1]["file_path"]}", :class => "#{series.title}", :id=>@counter)%>
+      <%@counter+=1%>
+    <% end %>
+  <%end%>
 </div>
 
 
@@ -212,17 +216,21 @@
   <h1>Listing Movies</h1>
   <%@counter=1%>
   <div id='movies_index_wrapper'>
-      <% @videos.each do |video| %>
-          <% if @counter == 1%>
-            <div>
-          <%end%>
-          <%= image_tag(video.poster, :class => "#{video.title}", :id=>@counter)%>
-          <%@counter+=1%>
-          <% if @counter == 5 %>
-            </div>
-            <%@counter=1%>
-          <%end%>
-      <% end %>
+    <% if @videos.count == 0 %>
+        <h1>No Videos matching your request</h1>
+    <%else%>
+        <% @videos.each do |video| %>
+            <% if @counter == 1%>
+              <div>
+            <%end%>
+            <%= image_tag(video.poster, :class => "#{video.title}", :id=>@counter)%>
+            <%@counter+=1%>
+            <% if @counter == 5 %>
+              </div>
+              <%@counter=1%>
+            <%end%>
+        <% end %>
+      <%end%>
   </div>
 
 
