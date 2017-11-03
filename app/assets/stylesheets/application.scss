@@ -773,17 +773,20 @@ body {
   font-size: 1.5em;
   margin-top: -.5em;
   width: 20em;
-  @media only screen and (max-width: 600px) {
-    width: 85vw !important;
-  }
-  @media only screen and (max-width: 550px) {
-    width: 80vw !important;
-  }
-  @media only screen and (max-width: 425px) {
-    width: 75vw !important;
+}
+#dropdown{
+  .owl-item{
+    @media only screen and (max-width: 600px) {
+      width: 85vw !important;
+    }
+    @media only screen and (max-width: 550px) {
+      width: 80vw !important;
+    }
+    @media only screen and (max-width: 425px) {
+      width: 75vw !important;
+    }
   }
 }
-
 
 
 
