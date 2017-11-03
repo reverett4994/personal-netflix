@@ -73,10 +73,12 @@ function getParameterByName( name ){
       if ($('.tv_type').is(':checked')){
         $(".series input").prop("disabled",false);
         $("input[type=number]").prop("disabled",false);
+        $("#video_title").prop("disabled",true);
       }
       if ($('.tv_type').is(':not(:checked)')){
         $(".series input").prop("disabled",true);
         $("input[type=number]").prop("disabled",true);
+        $("#video_title").prop("disabled",false);
       }
     });
   });

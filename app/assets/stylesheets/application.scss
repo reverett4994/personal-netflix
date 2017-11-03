@@ -412,7 +412,17 @@ body {
 
 
  //*****************************VIDEO NEW***************************************//
+ .edit_p{
+   display: block;
+   margin-left: auto;
+   margin-right: auto;
+   font-style: italic;
+   text-align: center;
+   font-size: 1.2em;
+   margin-top: -20px;
+ }
 .edit_video{
+
   text-align: center;
   a{
     text-align: center;
@@ -465,6 +475,17 @@ body {
 
  //*****************************VIDEO SHHOW***************************************//
 
+
+.edit_link{
+  text-align: center;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 2em;
+  text-decoration: underline;
+  color: black;
+  margin: 5em 0;
+}
 #video_show_wrapper{
   height: 100vh;
   width: 100vw;
