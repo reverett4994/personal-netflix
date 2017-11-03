@@ -80,4 +80,7 @@ Rails.application.configure do
 
   #FOUND ON DEVISE PAGE TO USE WITH HEROKU
   config.assets.initialize_on_precompile = false
+
+  config.assets.compile = true
+  config.assets.digest = true
 end
