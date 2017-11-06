@@ -92,6 +92,7 @@
         var series=data["series"]
         var videos=data["videos"]
         var amount=videos.length
+        $( " <a href='/series/"+data["id"]+"/edit'>Edit</a> " ).appendTo( "#dropdown" );
         $( "<h2>"+data["series"]["desc"]+"</h2>" ).appendTo( "#dropdown" );
         $("<h4>"+amount+" episodes<br>Season: </h4>").appendTo( "#dropdown" );
         var s = $("<select id='season_select' class='"+classs+" seaon_select' />");
@@ -140,6 +141,7 @@
         $("#season_select").val(season);
       },
       error:function(data) {
+        $( " <a href='/series/"+data['responseJSON']['id']+"/edit'>Edit</a> " ).appendTo( "#dropdown" );
         $( "<h2>No Episodes Added Yet <br>  <a href='/videos/new'>Add Some Now!</a> </h2>" ).appendTo( "#dropdown" );
         return false;
       }
@@ -156,6 +158,7 @@
                 $('h2').remove();
                 $('h4').remove();
                 $('#season_select').remove();
+                $( "#dropdown a" ).remove();
                 var classs=name;
                 $.ajax({
                   type: "POST",
@@ -168,6 +171,7 @@
                     var series=data["series"];
                     var videos=data["videos"];
                     var amount=videos.length;
+                    $( " <a href='/series/"+data["id"]+"/edit'>Edit</a> " ).appendTo( "#dropdown" );
                     $( "<h2>"+data["series"]["desc"]+"</h2>" ).appendTo( "#dropdown" );
                     $("<h4>"+amount+" episodes<br>Season: </h4>").appendTo( "#dropdown" );
                     var s = $("<select id='season_select' class='"+classs+" seaon_select' />");
@@ -213,6 +217,7 @@
                     $("#season_select").val(season);
                   },
                   error:function(data) {
+                    $( " <a href='/series/"+data['responseJSON']['id']+"/edit'>Edit</a> " ).appendTo( "#dropdown" );
                     $( "<h2>No Episodes Added Yet <br>  <a href='/videos/new'>Add Some Now!</a> </h2>" ).appendTo( "#dropdown" );
                     return false;
                   }

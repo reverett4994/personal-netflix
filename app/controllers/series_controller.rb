@@ -15,15 +15,22 @@ class SeriesController < ApplicationController
       @videos=@series.videos.where("season LIKE ?",@season)
       @most_recent= @series.videos.order("last_watched").last.title
       respond_to do |format|
-        format.json { render :json => {:series => @series, :season => @season, :videos => @videos, :last_watched => @most_recent, :total_seasons => @total_seasons} }
+        format.json { render :json => {:series => @series, :season => @season, :videos => @videos, :last_watched => @most_recent, :total_seasons => @total_seasons,id:@series.id} }
       end
     else
-      @most_recent= @series.videos.order("last_watched").last.title
-      @season=@series.videos.order("last_watched").last.season
-      @videos=@series.videos.where("season LIKE ?",@season)
-      respond_to do |format|
-        format.json { render :json => {:series => @series, :season => @season, :videos => @videos, :last_watched => @most_recent, :total_seasons => @total_seasons} }
+      if @series.videos.count < 1
+        respond_to do |format|
+          format.json { render :json => {:id=>@series.id}, :status => 500 }
+        end
+      else
+        @most_recent= @series.videos.order("last_watched").last.title
+        @season=@series.videos.order("last_watched").last.season
+        @videos=@series.videos.where("season LIKE ?",@season)
+        respond_to do |format|
+          format.json { render :json => {:series => @series, :season => @season, :videos => @videos, :last_watched => @most_recent, :total_seasons => @total_seasons,id:@series.id} }
+        end
       end
+
     end
 
   end
@@ -54,7 +61,7 @@ class SeriesController < ApplicationController
 
     respond_to do |format|
       if @series.save
-        format.html { redirect_to @series, notice: 'Series was successfully created.' }
+        format.html { redirect_to "/series", notice: 'Series was successfully created.' }
         format.json { render :show, status: :created, location: @series }
       else
         format.html { render :new }

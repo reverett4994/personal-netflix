@@ -6,10 +6,18 @@
     <%@search = Tmdb::Search.new %>
     <%@search.resource('tv') %>
     <%@search.query(series.title) %>
-    <%@tv_series_id=@search.fetch[0]["id"] %>
-    <%@pics = Tmdb::TV.images(@tv_series_id) %>
-    <% @pics['backdrops'][1]["file_path"] %>
-    <%= image_tag("http://image.tmdb.org/t/p/w780/#{@pics['backdrops'][1]["file_path"]}", :class => "#{series.title}", :id=>@counter)%>
+    <% if @search.fetch[0] != nil%>
+      <%@tv_series_id=@search.fetch[0]["id"] %>
+      <%@pics = Tmdb::TV.images(@tv_series_id) %>
+      <% if @pics['backdrops'][1]  != nil%>
+        <% @pics['backdrops'][1]["file_path"] %>
+        <%= image_tag("http://image.tmdb.org/t/p/w780/#{@pics['backdrops'][1]["file_path"]}", :class => "#{series.title}", :id=>@counter)%>
+      <%else%>
+        <%= image_tag("/tv_placeholder.jpg", :class => "#{series.title}", :id=>@counter)%>
+      <%end%>
+    <%else%>
+    <%= image_tag("/tv_placeholder.jpg", :class => "#{series.title}", :id=>@counter)%>
+    <%end%>
     <%@counter+=1%>
   <% end %>
 
@@ -54,6 +62,7 @@ $("img").click(function(){
       } else {
         var series_desc= data["series"]["desc"];
       };
+      $( " <a href='/series/"+data["id"]+"/edit'>Edit</a> " ).appendTo( "#dropdown" );
       $( "<h2>"+series_desc+"</h2>" ).appendTo( "#dropdown" );
       $("<h4>"+amount+" episodes<br>Season: </h4>").appendTo( "#dropdown" );
       var s = $("<select id='season_select' class='"+classs+" seaon_select' />");
@@ -102,6 +111,7 @@ $("img").click(function(){
       $("#season_select").val(season);
     },
     error:function(data) {
+      $( " <a href='/series/"+data['responseJSON']['id']+"/edit'>Edit</a> " ).appendTo( "#dropdown" );
       $( "<h2>No Episodes Added Yet <br>  <a href='/videos/new'>Add Some Now!</a> </h2>" ).appendTo( "#dropdown" );
       return false;
     }
@@ -118,6 +128,7 @@ document.addEventListener('change', function (e) {
               $('h2').remove();
               $('h4').remove();
               $('#season_select').remove();
+              $( "#dropdown a" ).remove();
               var classs=name;
               $.ajax({
                 type: "POST",
@@ -130,6 +141,7 @@ document.addEventListener('change', function (e) {
                   var series=data["series"];
                   var videos=data["videos"];
                   var amount=videos.length;
+                  $( " <a href='/series/"+data["id"]+"/edit'>Edit</a> " ).appendTo( "#dropdown" );
                   $( "<h2>"+data["series"]["desc"]+"</h2>" ).appendTo( "#dropdown" );
                   $("<h4>"+amount+" episodes<br>Season: </h4>").appendTo( "#dropdown" );
                   var s = $("<select id='season_select' class='"+classs+" seaon_select' />");
@@ -175,6 +187,7 @@ document.addEventListener('change', function (e) {
                   $("#season_select").val(season);
                 },
                 error:function(data) {
+                  $( " <a href='/series/"+data['responseJSON']['id']+"/edit'>Edit</a> " ).appendTo( "#dropdown" );
                   $( "<h2>No Episodes Added Yet <br>  <a href='/videos/new'>Add Some Now!</a> </h2>" ).appendTo( "#dropdown" );
                   return false;
                 }
