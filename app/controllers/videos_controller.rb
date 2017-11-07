@@ -95,10 +95,12 @@ class VideosController < ApplicationController
          @genres.push(g.name.parameterize.underscore)
        end
        @pics = Tmdb::Episode.images(@tv_series_id, @video.season, @video.episode)
-       if @pics["stills"][1]==nil
-         @poster= "http://image.tmdb.org/t/p/w780/#{ @pics["stills"][0]["file_path"]}"
-       else
-         @poster= "http://image.tmdb.org/t/p/w780/#{ @pics["stills"][1]["file_path"]}"
+       if @pics["stills"] != nil
+         if @pics["stills"][1]==nil
+           @poster= "http://image.tmdb.org/t/p/w780/#{ @pics["stills"][0]["file_path"]}"
+         else
+           @poster= "http://image.tmdb.org/t/p/w780/#{ @pics["stills"][1]["file_path"]}"
+         end
        end
 
 
@@ -123,11 +125,15 @@ class VideosController < ApplicationController
        @search = Tmdb::Search.new
        @search.resource('movie')
        @search.query(@video.title)
-       @movie_id=@search.fetch[0]["id"]
-       @movie = Tmdb::Movie.detail(@movie_id)
-       @movie_desc=@movie["overview"]
-       @movie_date=@movie["release_date"]
-       @poster= "http://image.tmdb.org/t/p/w780/#{ @movie["backdrop_path"]}"
+       if @search.fetch[0] != nil
+         @movie_id=@search.fetch[0]["id"]
+         @movie = Tmdb::Movie.detail(@movie_id)
+         @movie_desc=@movie["overview"]
+         @movie_date=@movie["release_date"]
+         @poster= "http://image.tmdb.org/t/p/w780/#{ @movie["backdrop_path"]}"
+       else
+          @poster= "/placeholder.jpg"
+       end
        gon.genre_id = @video.id
        gon.movie=true
        @genres=[]
@@ -190,7 +196,7 @@ class VideosController < ApplicationController
   def destroy
     @video.destroy
     respond_to do |format|
-      format.html { redirect_to videos_url, notice: 'Video was successfully destroyed.' }
+      format.html { redirect_to "/", notice: 'Video was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

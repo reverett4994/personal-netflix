@@ -3,6 +3,7 @@ class Video < ActiveRecord::Base
    has_and_belongs_to_many :genres
    belongs_to :series
    belongs_to :user
+   validate :check_title
    validate :content_type
    validate :series_check
    validate :season_episode
@@ -29,7 +30,11 @@ class Video < ActiveRecord::Base
       errors.add(:content_type, "has to be either mp4, webm or ogg")
     end
   end
-
+  def check_title
+    if self.production_type.downcase == "movie" && self.title.length < 1
+        errors.add(:Movies,' must have a title')
+    end
+  end
   def series_check
     if self.production_type !=nil && self.production_type.downcase == "tv"
       if self.series == nil
@@ -47,6 +52,7 @@ class Video < ActiveRecord::Base
   end
 
   def add_title_and_desc
+    return unless errors.blank?
     @search = Tmdb::Search.new
     if self.production_type==nil
       errors.add(:type, "must have a tv, movie or other type")
@@ -63,21 +69,32 @@ class Video < ActiveRecord::Base
             @episode_date= @episode["air_date"]
             if self.season != nil || self.episode != nil
               @pics = Tmdb::Episode.images(@tv_series_id, self.season, self.episode)
-              if @pics["stills"][1]==nil
-                @poster= "http://image.tmdb.org/t/p/w780/#{ @pics["stills"][0]["file_path"]}"
+              if @pics["stills"] != nil
+                if @pics["stills"][1]==nil
+                  @poster= "http://image.tmdb.org/t/p/w780/#{ @pics["stills"][0]["file_path"]}"
+                else
+                  @poster= "http://image.tmdb.org/t/p/w780/#{ @pics["stills"][1]["file_path"]}"
+                end
+                self.date = @episode_date.to_date
+                self.poster = @poster
               else
-                @poster= "http://image.tmdb.org/t/p/w780/#{ @pics["stills"][1]["file_path"]}"
+                @poster= "/tv_placeholder.jpg"
+                self.poster = @poster
               end
 
-              self.date = @episode_date.to_date
-              self.poster = @poster
-            end
+              if self.title==""
+                self.title = @episode_title
+              end
+              if self.desc=="" || self.desc==nil
+                self.desc = @episode_desc
+              end
+              if self.title==""|| self.title==nil
+                self.title = "N/A"
+              end
+              if self.desc=="" || self.desc==nil
+                self.desc = "N/A"
+              end
 
-            if self.title==""
-              self.title = @episode_title
-            end
-            if self.desc=="" || self.desc==nil
-              self.desc = @episode_desc
             end
           end
         end
@@ -85,16 +102,23 @@ class Video < ActiveRecord::Base
         @search = Tmdb::Search.new
         @search.resource('movie')
         @search.query(self.title)
-        @movie_id=@search.fetch[0]["id"]
-        @movie = Tmdb::Movie.detail(@movie_id)
-        @movie_desc=@movie["overview"]
-        @movie_date=@movie["release_date"]
-        @poster= "http://image.tmdb.org/t/p/w780/#{ @movie["poster_path"]}"
-        @movie_img="http://image.tmdb.org/t/p/w780/#{ @movie["backdrop_path"]}"
-        self.poster=@poster
-        self.movie_img=@movie_img
-        self.desc=@movie_desc
-        self.date=@movie_date.to_date
+        if @search.fetch[0] != nil
+          @movie_id=@search.fetch[0]["id"]
+          @movie = Tmdb::Movie.detail(@movie_id)
+          @movie_desc=@movie["overview"]
+          @movie_date=@movie["release_date"]
+          @poster= "http://image.tmdb.org/t/p/w780/#{ @movie["poster_path"]}"
+          @movie_img="http://image.tmdb.org/t/p/w780/#{ @movie["backdrop_path"]}"
+          self.poster=@poster
+          self.movie_img=@movie_img
+          self.desc=@movie_desc
+          self.date=@movie_date.to_date
+        else
+          @poster= "/placeholder.jpg"
+          @movie_img="/tv_placeholder.jpg"
+          self.poster=@poster
+          self.movie_img=@movie_img
+        end
       end
     end
   end

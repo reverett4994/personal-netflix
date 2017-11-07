@@ -14,7 +14,7 @@
   <div class="field">
       <%= f.radio_button(:production_type, "Movie") %>
       <%= f.label(:production_type_movie, "Movie") %>
-      <%= f.radio_button(:production_type, "TV") %>
+      <%= f.radio_button(:production_type, "TV",class:'tv_type') %>
       <%= f.label(:production_type_tv, "TV") %>
       <%= f.radio_button(:production_type, "Other") %>
       <%= f.label(:production_type_other, "Other") %>
@@ -23,7 +23,7 @@
     <%= f.label :title %><br>
     <%= f.text_field :title %>
   </div>
-  <div class="field">
+  <div class="field series">
     <%= f.label :series_id %><br>
     <%= f.collection_radio_buttons(:series_id, Series.all, :id, :title) %>
   </div>
@@ -46,3 +46,31 @@
     <%= f.submit %>
   </div>
 <% end %>
+
+
+
+<script>
+if ($('.tv_type').is(':checked')){
+  $(".series input").prop("disabled",false);
+  $("input[type=number]").prop("disabled",false);
+}
+if ($('.tv_type').is(':not(:checked)')){
+  $(".series input").prop("disabled",true);
+  $("input[type=number]").prop("disabled",true);
+  $("#video_title").prop("disabled",false);
+}
+  $(function(){
+    $('input[type=radio]').click(function(){
+      if ($('.tv_type').is(':checked')){
+        $(".series input").prop("disabled",false);
+        $("input[type=number]").prop("disabled",false);
+      }
+      if ($('.tv_type').is(':not(:checked)')){
+        $(".series input").prop("disabled",true);
+        $("input[type=number]").prop("disabled",true);
+        $("#video_title").prop("disabled",false);
+      }
+    });
+  });
+
+</script>

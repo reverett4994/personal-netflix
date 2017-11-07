@@ -323,6 +323,15 @@ body {
 
  //*****************************DEVISE WRAPPER***************************************//
 
+.delete_link{
+  text-align: center;
+  font-size: 1.5em;
+  text-decoration: underline;
+  color: black;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
 #devise_wrapper{
   h2{
     text-align: center;
@@ -699,6 +708,20 @@ body {
 
  //*****************************MOVIES INDEX***************************************//
 
+
+ //*****************************NEW SERIES***************************************//
+
+#new_series_wrapper{
+  text-align: center;
+}
+.search_poster{
+  width: 23%;
+}
+
+ //*****************************NEW SERIES***************************************//
+
+
+
  //*****************************SERIES INDEX***************************************//
 
 #series_wrapper{
@@ -757,11 +780,14 @@ body {
     height: 100%;
     vertical-align:top;
   }
+  a{
+    margin-top: -50px;
+  }
   h1{
     color: #F2E980;
     text-align: center;
     font-size: 3em;
-    margin-bottom: 1.5em;
+    margin-bottom: .5em;
   }
   h4{
     display: inline-block;
@@ -780,6 +806,7 @@ body {
       text-decoration: underline;
       font-size: 2em;
       line-height: 9;
+      margin: 10px;
     }
   }
   @media only screen and (max-width: 700px) {

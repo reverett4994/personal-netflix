@@ -74,12 +74,12 @@ $("#basics").keypress(function(){
     $('#basics').focus();
   });
   if (counter > 0) {
-    $(".poster").remove();
+    $(".search_poster").remove();
     for(i=0;i<5;i++){
       $.getJSON("https://api.themoviedb.org/3/tv/"+parseInt(id_results[i])+"?api_key=5041b86cde2ce6de2f60c84e6fccd66c&language=en-US",function(data){
          results= data.results
-         $("body").append("<img class='poster "+data["name"]+"'src='http://image.tmdb.org/t/p/w780/"+data["poster_path"] + "' alt='"+data["name"]+"'>");
-         $(".poster").click(function(){
+         $("#new_series_wrapper").append("<img class='search_poster "+data["name"]+"'src='http://image.tmdb.org/t/p/w780/"+data["poster_path"] + "' alt='"+data["name"]+"'>");
+         $(".search_poster").click(function(){
            $.getJSON("https://api.themoviedb.org/3/search/tv?api_key=5041b86cde2ce6de2f60c84e6fccd66c&query="+$("#series_title").val(),function(data){
                  id=data.results[0]["id"]
                  console.log(id);
