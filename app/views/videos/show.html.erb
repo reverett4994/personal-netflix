@@ -208,54 +208,93 @@ setInterval(function()
 var end_popup = setInterval(function()
 {
   if ($('#video_container').find('video').get(0).currentTime == $('#video_container').find('video').get(0).duration) {
-    swal("What Next?", {
-      buttons: {
-        cancel: "Return to video browser",
-        catch: {
-          text: "Replay",
-          value: "catch",
+    if (gon.movie==true) {
+      swal("What Next?", {
+        buttons: {
+          cancel: "Return to video browser",
+          catch: {
+            text: "Replay",
+            value: "catch",
+          },
         },
-        next: "Next Video",
-      },
-    })
-    .then((value) => {
-      switch (value) {
+      })
+      .then((value) => {
+        switch (value) {
+          case "catch":
+            $('#video_container').find('video').get(0).currentTime=0
+            $('#player').get(0).play();
+            break;
 
-        case "next":
-          if (gon.next_eps=="end") {
-            swal({
-              icon: "warning",
-              title: "Thats It!",
-              text: "No more episodes found :("
-            });
-          } else {
-            document.location.href = gon.next_eps;
-          }
-          break;
+          default:
+            document.location.href = "/movies";
+        }
+      });
+      clearInterval(end_popup)
 
-        case "catch":
-          $('#video_container').find('video').get(0).currentTime=0
-          $('#player').get(0).play();
-          break;
+      //ADD COUNTER
+       $(".swal-text").after("<div class='countdown'>Return to movies in <span id='clock'></span></div>");
+       var fiveSeconds = new Date().getTime() + 10000;
+       $('#clock').countdown(fiveSeconds, function(event) {
+         $(this).html(event.strftime('%S Seconds'));
+       });
+       // AUTO CLICK AFTER 10 SECONDS
+      var auto_click = setInterval(function()
+      {
+          $(".swal-button--cancel").click()
+          clearInterval(auto_click)
+      }, 10000);//time in milliseconds
 
-        default:
-          document.location.href = "/series";
-      }
-    });
-    clearInterval(end_popup)
+    } else {
+      swal("What Next?", {
+        buttons: {
+          cancel: "Return to video browser",
+          catch: {
+            text: "Replay",
+            value: "catch",
+          },
+          next: "Next Video",
+        },
+      })
+      .then((value) => {
+        switch (value) {
 
-    //ADD COUNTER
-     $(".swal-text").after("<div class='countdown'>Next episode in <span id='clock'></span></div>");
-     var fiveSeconds = new Date().getTime() + 10000;
-     $('#clock').countdown(fiveSeconds, function(event) {
-       $(this).html(event.strftime('%S Seconds'));
-     });
-     // AUTO CLICK AFTER 10 SECONDS
-    var auto_click = setInterval(function()
-    {
-        $(".swal-button--next").click()
-        clearInterval(auto_click)
-    }, 10000);//time in milliseconds
+          case "next":
+            if (gon.next_eps=="end") {
+              swal({
+                icon: "warning",
+                title: "Thats It!",
+                text: "No more episodes found :("
+              });
+            } else {
+              document.location.href = gon.next_eps;
+            }
+            break;
+
+          case "catch":
+            $('#video_container').find('video').get(0).currentTime=0
+            $('#player').get(0).play();
+            break;
+
+          default:
+            document.location.href = "/series";
+        }
+      });
+      clearInterval(end_popup)
+
+      //ADD COUNTER
+       $(".swal-text").after("<div class='countdown'>Next episode in <span id='clock'></span></div>");
+       var fiveSeconds = new Date().getTime() + 10000;
+       $('#clock').countdown(fiveSeconds, function(event) {
+         $(this).html(event.strftime('%S Seconds'));
+       });
+       // AUTO CLICK AFTER 10 SECONDS
+      var auto_click = setInterval(function()
+      {
+          $(".swal-button--next").click()
+          clearInterval(auto_click)
+      }, 10000);//time in milliseconds
+    };
+
 
 
   }
