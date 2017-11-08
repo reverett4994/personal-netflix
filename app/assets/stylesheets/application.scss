@@ -805,8 +805,11 @@ body {
     a{
       text-decoration: underline;
       font-size: 2em;
-      line-height: 9;
+      line-height: 5;
       margin: 10px;
+      @media only screen and (max-width: 380px) {
+        line-height: 3;
+      }
     }
   }
   @media only screen and (max-width: 700px) {
