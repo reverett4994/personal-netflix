@@ -82,7 +82,7 @@ class Video < ActiveRecord::Base
                 self.poster = @poster
               end
 
-              if self.title==""
+              if self.title==""||self.title==nil
                 self.title = @episode_title
               end
               if self.desc=="" || self.desc==nil
